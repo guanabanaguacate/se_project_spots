@@ -3,22 +3,26 @@
     width: 413px;
     list-style-type: none;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 8px;
     display: block;
 }
 
 .card__like-button{
-    background-image: url(../images/like\ button.png);
+    background-image: url(../images/like.svg);
     width: 23px;
     height: 20px;
     border: none;
     background-color: transparent;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 .card__content{
     display: flex;
     justify-content: space-between;
-    padding-top: 20px;
+    padding-top: 12px;
 }
 
 .card__title{
@@ -29,7 +33,8 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    max-width: 
+    max-width: 360px;
+    color: #212121;
 }
 
 @media screen and (max-width: 627px){
@@ -39,11 +44,10 @@
     }
 
     .card__title{
-        text-overflow: ellipsis;
-        overflow: hidden;
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
+        font-size: 16px;
         max-width: 250px;
     }
 }
