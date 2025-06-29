@@ -21,12 +21,12 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    opacity: 40%;
+    opacity: 100%;
 }
 
-.profule__add-btn:hover{
+.profile__add-btn:hover{
     cursor: pointer;
-    opacity: 100%;
+    opacity: 40%;
     margin-left: auto;
     margin-top: auto;
     width: 149px;

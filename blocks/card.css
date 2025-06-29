@@ -17,6 +17,7 @@
     background-position: center;
     background-repeat: no-repeat;
     cursor: pointer;
+    opacity: 40%;
 }
 
 .card__like-button:hover{
@@ -29,6 +30,7 @@
     background-position: center;
     background-repeat: no-repeat;
     cursor: pointer;
+    opacity: 100%
 }
 
 .card__content{
