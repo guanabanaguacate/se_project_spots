@@ -111,6 +111,57 @@
       <footer class="footer page__section">
         <p class="footer-copyright">2025 &copy; Spots</p>
       </footer>
+
+<!-- this modal should be visible -->
+<div class="modal modal__is-opened">
+  <div class="modal__container">
+    <button type="button" class="modal__close-btn">
+      <img src="./images/Close-Icon.png" alt="close button">
+    </button>
+    <h2 class="modal__title">Edit Profile</h2>
+    <form class="modal__form">
+      <label for="profile-name-input" class="modal__label">Name</label>
+      <input 
+        type="text" 
+        id="profile-name-input" 
+        class="modal__input" 
+        placeholder="Type your name">
+      <label for="profile-description-input" class="modal__description">Description</label>
+      <input 
+        type="text" 
+        id="profile-description-input" 
+        class="modal__input" 
+        placeholder="Describe yourself">
+      <button type=submit class="modal__submit-btn">Save</button>
+    </form>
+  </div>
+</div>
+
+<!-- this modal should be hidden -->
+<div class="modal">
+  <div class="modal__container">
+    <button type="button" class="modal__close-btn">
+      <img src="./images/Close-Icon.png" alt="close button">
+    </button>
+    <h2 class="modal__title">New post</h2>
+    <form class="modal__form">
+      <label for="profile-name-input" class="modal__label">Image link</label>
+      <input 
+        type="text" 
+        id="profile-name-input" 
+        class="modal__input" 
+        placeholder="Paste a link to the picture">
+      <label for="profile-description-input" class="modal__description">Caption</label>
+      <input 
+        type="text" 
+        id="profile-description-input" 
+        class="modal__input" 
+        placeholder="Type your caption">
+      <button type=submit class="modal__submit-btn">Save</button>
+    </form>
+  </div>
+</div>
+      
     </div>
   </body>
 </html>
