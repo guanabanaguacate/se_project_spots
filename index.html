@@ -112,13 +112,12 @@
         <p class="footer-copyright">2025 &copy; Spots</p>
       </footer>
 
-<!-- this modal should be visible -->
-<div class="modal">
+<div class="modal" id="edit-profile-modal">
   <div class="modal__container">
     <button type="button" class="modal__close-btn">
       <img src="./images/Close-Icon.png" alt="close button">
     </button>
-    <h2 class="modal__title">Edit Profile</h2>
+    <h2 class="modal__title" id="edit-profile-btn">Edit Profile</h2>
     <form class="modal__form">
       <label for="profile-name-input" class="modal__label">Name</label>
       <input 
@@ -137,8 +136,7 @@
   </div>
 </div>
 
-<!-- this modal should be hidden -->
-<div class="modal">
+<div class="modal" id="new-post-modal">
   <div class="modal__container">
     <button type="button" class="modal__close-btn">
       <img src="./images/Close-Icon.png" alt="close button">
@@ -161,7 +159,8 @@
     </form>
   </div>
 </div>
-      
-    </div>
+</div>
+
+  <script src="./scripts/index.js"></script>
   </body>
 </html>
