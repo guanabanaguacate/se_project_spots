@@ -57,7 +57,7 @@ function handleAddCardSubmit(evt) {
   evt.preventDefault(); 
   console.log(linkInput.value);
   console.log(descriptionInput.value);
-  closeModal(handleAddCardSubmit);
+  closeModal(newPostModal);
   evt.target.reset(); 
 }
 
