@@ -20,6 +20,10 @@
     opacity: 40%;
 }
 
+.card__like-button_is-active {
+    background-image: url();
+}
+
 .card__like-button:hover{
     cursor: pointer;
     opacity: 100%
