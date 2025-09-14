@@ -13,14 +13,17 @@ const addCardFormElement = newPostModal.querySelector(".modal__form");
 const linkInput = newPostModal.querySelector("#new-post-link");
 const descriptionInput = newPostModal.querySelector("#new-post-caption");
 
+//select template by it's id 
+const cardTemplate = document.querySelector("#card-template"); 
+
 const initialCards = [
-{ name: "Val Thorens", link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/1-photo-by-moritz-feldmann-from-pexels.jpg" },
-{ name: "Restaurant terrace", link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/2-photo-by-ceiline-from-pexels.jpg" },
-{ name: "An outdoor cafe", link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/3-photo-by-tubanur-dogan-from-pexels.jpg" },
-{ name: "A very long bridge, over the forest and through the trees", link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/4-photo-by-maurice-laschet-from-pexels.jpg" },
-{ name: "Tunnel with morning light", link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/5-photo-by-van-anh-nguyen-from-pexels.jpg" },
-{ name: "Mountain house", link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg" }
-]
+  { name: "Val Thorens", link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/1-photo-by-moritz-feldmann-from-pexels.jpg" },
+  { name: "Restaurant terrace", link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/2-photo-by-ceiline-from-pexels.jpg" },
+  { name: "An outdoor cafe", link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/3-photo-by-tubanur-dogan-from-pexels.jpg" },
+  { name: "A very long bridge, over the forest and through the trees", link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/4-photo-by-maurice-laschet-from-pexels.jpg" },
+  { name: "Tunnel with morning light", link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/5-photo-by-van-anh-nguyen-from-pexels.jpg" },
+  { name: "Mountain house", link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg" }
+];
 
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
@@ -70,85 +73,91 @@ function handleAddCardSubmit(evt) {
   evt.target.reset(); 
 }
 
-addCardFormElement.addEventListener('submit', function(evt){
-evt.preventDefault();
-
-
-
-}
-
 // this variable is needed right? 
-  const cardList = document.querySelector('.cards__list');
+const cardList = document.querySelector('.cards__list');
 
-initialCards.forEach(function(item){
-  const cardElement = getCardElement(item));
+//"NEW POST" MODAL SUBMISSION
+addCardFormElement.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  //"NEW POST" MODAL SUBMISSION
+const cardName = nameInput.value;
+const cardLink = linkInput.value;
+  //create a data object with the form values
+const newCardData = {
+  name: cardName,
+  link: cardLink
+}
+  //copied and pasted this code from initialCards loop
+  const cardElement = getCardElement(item);
   //prepend the created card element to the appropriate HTML container (the one where the hardcoed cards were located)
-  cardList.prepend(card);
+  cardList.prepend(cardElement);
+
+//create and add the card
+const newCardElement = getCardElement(newCardData)
+
+//add it as the first element in the container
+cardList.prepend(newCardElement); 
+
+});
+
+
+initialCards.forEach(item => {
+  const cardElement = getCardElement(item);
+  //prepend the created card element to the appropriate HTML container (the one where the hardcoed cards were located)
+  cardList.prepend(cardElement);
 }); 
 
-//select template by it's id 
-const cardTemplate = document
-.querySelector("#card-Template") //.textContent; 
-
 //create function
-//why is "data" passed through instead of "item" ?
 //clone the content of the template
+
 function getCardElement(data) {
   const cardElement = cardTemplate.content
   .querySelector(".card")
   .cloneNode(true);
 
-//select the clone's title and image elements and store them in variables
-const cardImageEl = cardElement.querySelector(".card__image"); 
-const cardTitleEl = cardElement.querySelector(".card__title");
+  //select the clone's title and image elements and store them in variables
+  const cardImageEl = cardElement.querySelector(".card__image"); 
+  const cardTitleEl = cardElement.querySelector(".card__title");
 
-//Assign the data parameter’s link property to the image element’s src property.
-imageElement.src = data.link;
+  //Assign the data parameter’s link property to the image element’s src property.
+  cardImageEl.src = data.link;
 
-// Assign the data parameter’s name property to the image element’s alt property.
-imageElement.alt = data.name;
+  // Assign the data parameter’s name property to the image element’s alt property.
+  cardImageEl.alt = data.name;
 
-// Assign the data parameter’s name property to the name element’s textContent property.
-nameElement.textContent = data.name;
+  // Assign the data parameter’s name property to the name element’s textContent property.
+  cardTitleEl.textContent = data.name;
 
-//return the cloned card element
-return getCardElement;
-}
-
-//"NEW POST" MODAL SUBMISSION
-
-//these have already been called...
-//const nameInput = document.querySelector('.profile-name-input');
-//const descriptionInput = document.querySelector('.profile-description-input');
-
-const cardName = nameInput.value;
-//const linkInput = linkInput.value;
-
-//create a data object with the form values
-
-const newCardData = {
-  name: cardName,
-  link: cardLink
-}; 
-
-//create and add the card
-
-const newCardElement = getCardElement(newCardData); 
-
-//add it as the first element in the container
-
-cardContainer.prepend(newCardElement); 
+ //return the cloned card element
+  return(cardElement); 
+  
+};
 
 //when the user clicks on the card’s heart-shaped “like button,” the heart's color should change.   
-  
   // 1. Select the card element's like button
-  //why is the cardElement being selected?
-
-  const likeButton = cardElement.querySelector(".card__like-button")
+  const likeButton = document.querySelectorAll(".card__like-button")
 
   // 2. Set a click listener on it
   //.classList.toggle ??
 
-  likeButton.addEventListener("click", () => {
-  likeButton.classList.toggle('card__like-button_is-active');
+likeButton.forEach((item) => {
+
+ item.addEventListener("click", () => {
+  item.classList.toggle('card__like-button_is-active');
   })
+
+})
+
+//add delete buttons to the cards 
+const deleteBtn = document.querySelectorAll(".card__delete-btn")
+
+//does this NEED to be a loop?
+  deleteBtn.forEach((item) => {
+    item.addEventListener("click", () => {
+    item.closest(".card").remove();
+    })
+    
+  })
+ 
+  

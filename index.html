@@ -42,11 +42,10 @@ Create a template element in the HTML. It should have the same elements and clas
 Leave the text content empty, and omit the src and alt attributes. Give the template an id.
 Remove the existing cards from the HTML.
 -->
-            <template id = #card-template>
+            <template id="card-template">
             <li class="card">
-              <img
-                class="card__image" src="#" alt="" />
-              />
+              <button class = "card__delete-btn" type="button"></button>
+              <img class="card__image" src="#" alt="" />
               <div class="card__content">
                 <h2 class="card__title"></h2>
                 <button class="card__like-button" type="button"></button>
@@ -55,7 +54,7 @@ Remove the existing cards from the HTML.
             </template>
             </ul>
         </section>
-        
+
       </main>
       <footer class="footer page__section">
         <p class="footer-copyright">2025 &copy; Spots</p>
