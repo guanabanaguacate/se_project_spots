@@ -129,35 +129,20 @@ function getCardElement(data) {
   // Assign the data parameter’s name property to the name element’s textContent property.
   cardTitleEl.textContent = data.name;
 
+//when the user clicks on the card’s heart-shaped “like button,” the heart's color should change.   
+  // 1. Select the card element's like button
+  const likeButton = cardElement.querySelector(".card__like-button")
+  likeButton.addEventListener("click", () => {
+  likeButton.classList.toggle('card__like-button_is-active');
+  })
+
+const deleteBtn = cardElement.querySelector(".card__delete-btn")
+    deleteBtn.addEventListener("click", () => {
+    deleteBtn.closest(".card").remove();
+    })
+
  //return the cloned card element
   return(cardElement); 
   
 };
-
-//when the user clicks on the card’s heart-shaped “like button,” the heart's color should change.   
-  // 1. Select the card element's like button
-  const likeButton = document.querySelectorAll(".card__like-button")
-
-  // 2. Set a click listener on it
-  //.classList.toggle ??
-
-likeButton.forEach((item) => {
-
- item.addEventListener("click", () => {
-  item.classList.toggle('card__like-button_is-active');
-  })
-
-})
-
-//add delete buttons to the cards 
-const deleteBtn = document.querySelectorAll(".card__delete-btn")
-
-//does this NEED to be a loop?
-  deleteBtn.forEach((item) => {
-    item.addEventListener("click", () => {
-    item.closest(".card").remove();
-    })
-    
-  })
- 
   

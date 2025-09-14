@@ -114,6 +114,50 @@
     color: black;
 }
 
+.modal_is-opened {
+  display: flex; 
+
+}
+
+.modal__container_type_preview{
+    background-color: transparent;
+    display: flex; 
+    justify-content: center;
+    flex-direction: column;
+    max-width: none;
+    width: auto;
+    
+}
+
+.modal__close-btn_type_preview{
+    right: 0;
+    background-image: url(../images/close-icon-2.svg);
+}
+
+.modal__close-btn_type_preview:hover{
+    background-image: url(../images/Close-icon-hover.svg);
+    cursor: pointer;
+}
+
+.modal__caption{
+    display: relative;
+    background-color: black;
+    color: white;
+    font-weight: 500;
+    size: 20px;
+    line-height: 120%;
+    padding: 4px 8px;
+    border-radius: 8px;
+    width: fit-content;
+}
+
+.modal__image{
+    margin-bottom: 8px;
+    border-radius: 8px;
+    max-height: 661px;
+    max-width: 992px;
+}
+
 @media (max-width: 480px){
     .modal__submit-btn{
         max-width: none;

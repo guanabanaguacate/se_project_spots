@@ -49,10 +49,6 @@
     margin-right: 10px;
 }
 
-//.card__delete-btn_is-active {
-//    background-image: url(../images/Trash\ hover.svg);
-//}
-
 .card__delete-btn:hover{
     cursor: pointer;
     background-image: url(../images/Trash\ hover.svg);
