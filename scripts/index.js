@@ -159,7 +159,7 @@ cardImageEl.addEventListener("click", () => {
 //Set the text of the modal’s caption element.
 titleModal.textContent = data.name
 //Set the src of the modal’s image element.
-imageModal.src = data.link
+imageModal.src = data.link //should this be linked to the card__image ?
 //Set the alt of the modal’s image element.
 imageModal.alt = data.name
 
