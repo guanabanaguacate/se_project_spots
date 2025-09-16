@@ -14,7 +14,13 @@ const linkInput = newPostModal.querySelector("#new-post-link");
 const descriptionInput = newPostModal.querySelector("#new-post-caption");
 
 //select template by it's id 
-const cardTemplate = document.querySelector("#card-template"); 
+const cardTemplate = document.querySelector("#card-template");
+
+// click listener on the new modal’s close button
+const modalCloseBtn = document.querySelector("#preview-image-modal")
+modalCloseBtn.addEventListener("click", () => {
+  modalCloseBtn.classList.toggle('modal_is-opened');
+})
 
 const initialCards = [
   { name: "Val Thorens", link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/1-photo-by-moritz-feldmann-from-pexels.jpg" },
@@ -80,7 +86,6 @@ const cardList = document.querySelector('.cards__list');
 addCardFormElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  //"NEW POST" MODAL SUBMISSION
 const cardName = nameInput.value;
 const cardLink = linkInput.value;
   //create a data object with the form values
@@ -89,9 +94,9 @@ const newCardData = {
   link: cardLink
 }
   //copied and pasted this code from initialCards loop
-  const cardElement = getCardElement(item);
+  //const cardElement = getCardElement(item);
   //prepend the created card element to the appropriate HTML container (the one where the hardcoed cards were located)
-  cardList.prepend(cardElement);
+  //cardList.prepend(cardElement);
 
 //create and add the card
 const newCardElement = getCardElement(newCardData)
@@ -120,7 +125,7 @@ function getCardElement(data) {
   const cardImageEl = cardElement.querySelector(".card__image"); 
   const cardTitleEl = cardElement.querySelector(".card__title");
 
-  //Assign the data parameter’s link property to the image element’s src property.
+   //Assign the data parameter’s link property to the image element’s src property.
   cardImageEl.src = data.link;
 
   // Assign the data parameter’s name property to the image element’s alt property.
@@ -129,8 +134,9 @@ function getCardElement(data) {
   // Assign the data parameter’s name property to the name element’s textContent property.
   cardTitleEl.textContent = data.name;
 
+
 //when the user clicks on the card’s heart-shaped “like button,” the heart's color should change.   
-  // 1. Select the card element's like button
+  // Select the card element's like button
   const likeButton = cardElement.querySelector(".card__like-button")
   likeButton.addEventListener("click", () => {
   likeButton.classList.toggle('card__like-button_is-active');
@@ -141,8 +147,26 @@ const deleteBtn = cardElement.querySelector(".card__delete-btn")
     deleteBtn.closest(".card").remove();
     })
 
+
+const modalPreview = document.querySelector(".modal__container_type_preview")
+const imageModal = cardElement.querySelector(".card__image"); 
+const titleModal = cardElement.querySelector(".card__title");
+
+
+//??Preview Image Modal
+cardImageEl.addEventListener("click", () => {
+
+//Set the text of the modal’s caption element.
+titleModal.textContent = data.name
+//Set the src of the modal’s image element.
+imageModal.src = data.link
+//Set the alt of the modal’s image element.
+imageModal.alt = data.name
+
+  openModal(modalPreview); 
+  })
+
  //return the cloned card element
   return(cardElement); 
   
 };
-  

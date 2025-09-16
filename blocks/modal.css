@@ -154,8 +154,8 @@
 .modal__image{
     margin-bottom: 8px;
     border-radius: 8px;
-    max-height: 661px;
-    max-width: 992px;
+    max-height: 80vh;
+    max-width: 80vh;
 }
 
 @media (max-width: 480px){
@@ -180,4 +180,10 @@
 .modal__input{
     font-size: 16px;
 }
+
+.modal__image{
+    max-width: 288px;
+}
+
+
 }
