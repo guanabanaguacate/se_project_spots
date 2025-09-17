@@ -18,7 +18,7 @@ Interactive image-sharing website that allows users to create their own photo ga
 
 This webpage is deployed to GitHub pages
 
-[Deployment link](https://www.guanabanaguacate.guthub.io/se_project_spots)
+[Deployment link](https://www.guanabanaguacate.github.io/se_project_spots)
 
 ### Overview  
 
