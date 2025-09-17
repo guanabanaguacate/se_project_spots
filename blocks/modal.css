@@ -17,6 +17,7 @@
 .modal_is-opened{
     visibility: visible;
     opacity:1;
+    display: flex;
 }
 
 .modal__form{
@@ -97,6 +98,7 @@
     background-image: url(../images/Close-icon.svg);
     border: 0px;
     background-color: transparent;
+    cursor: pointer;
 }
 
 .modal__close-btn:hover{
@@ -112,11 +114,6 @@
 
 .modal__input:focus{
     color: black;
-}
-
-.modal_is-opened {
-  display: flex; 
-
 }
 
 .modal__container_type_preview{
