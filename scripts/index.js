@@ -9,7 +9,7 @@ const jobInput = editProfileModal.querySelector("#profile-description-input");
 const newPostBtn = document.querySelector(".profile__add-btn");
 const newPostModal = document.querySelector("#new-post-modal");
 const newPostCloseBtn = newPostModal.querySelector(".modal__close-btn");
-const addCardFormElement = newPostModal.querySelector(".modal__form");
+const addCardFormElement = newPostModal.querySelector(".modal__form"); //why select the modal__form and not its parent modal__container including the buttons?
 const linkInput = newPostModal.querySelector("#new-post-link");
 const descriptionInput = newPostModal.querySelector("#new-post-caption");
 
@@ -17,7 +17,7 @@ const descriptionInput = newPostModal.querySelector("#new-post-caption");
 const cardTemplate = document.querySelector("#card-template");
 
 // click listener on the new modal’s close button
-const modalCloseBtn = document.querySelector("#preview-image-modal")
+const modalCloseBtn = document.querySelector(".modal__close-btn_type_preview")
 modalCloseBtn.addEventListener("click", () => {
   modalCloseBtn.classList.toggle('modal_is-opened');
 })
@@ -71,10 +71,9 @@ function handleProfileFormSubmit(evt) {
 
 profileFormElement.addEventListener('submit', handleProfileFormSubmit);
 
+//This function hasn't been called... 
 function handleAddCardSubmit(evt) {
   evt.preventDefault(); 
-  console.log(linkInput.value);
-  console.log(descriptionInput.value);
   closeModal(newPostModal);
   evt.target.reset(); 
 }
@@ -86,7 +85,7 @@ const cardList = document.querySelector('.cards__list');
 addCardFormElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-const cardName = nameInput.value;
+const cardName = descriptionInput.value;
 const cardLink = linkInput.value;
   //create a data object with the form values
 const newCardData = {
@@ -100,9 +99,10 @@ const newCardData = {
 
 //create and add the card
 const newCardElement = getCardElement(newCardData)
-
 //add it as the first element in the container
 cardList.prepend(newCardElement); 
+
+handleAddCardSubmit(addCardFormElement);
 
 });
 
@@ -148,9 +148,9 @@ const deleteBtn = cardElement.querySelector(".card__delete-btn")
     })
 
 
-const modalPreview = document.querySelector(".modal__container_type_preview")
-const imageModal = cardElement.querySelector(".card__image"); 
-const titleModal = cardElement.querySelector(".card__title");
+const modalPreview = document.querySelector("#preview-image-modal")
+const imageModal = cardElement.querySelector(".modal__image"); 
+const titleModal = cardElement.querySelector(".modal__caption"); // #new-post-caption ??
 
 
 //??Preview Image Modal
