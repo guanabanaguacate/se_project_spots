@@ -37,4 +37,4 @@ and some challenges I faced while building it:
 
 [First Video Link](https://drive.google.com/drive/u/1/folders/1JY5kXLbfUJ5n15ODNdXNiTmOdJaXcyOt)
 
-[Spots Stage 9 Video Link]  (https://www.loom.com/share/20bbe9ca930d44e8b89ca114036091cc)
+[Spots Stage 9 Video Link]  (https://drive.google.com/file/d/1vgSbPtiiwbsBeGHgpoUcc8fXbMkIJbTL/view?usp=sharing)
