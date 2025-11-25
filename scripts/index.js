@@ -1,3 +1,4 @@
+//when you call an element, think about what it is supposed to do and the reason why you need to call it
 const editProfileBtn = document.querySelector(".profile__edit-btn");
 const editProfileModal = document.querySelector("#edit-profile-modal");
 const editProfileCloseBtn = editProfileModal.querySelector(".modal__close-btn");
@@ -12,6 +13,7 @@ const newPostCloseBtn = newPostModal.querySelector(".modal__close-btn");
 const addCardFormElement = newPostModal.querySelector(".modal__form"); //why select the modal__form and not its parent modal__container including the buttons?
 const linkInput = newPostModal.querySelector("#new-post-link");
 const descriptionInput = newPostModal.querySelector("#new-post-caption");
+const submitButton = newPostModal.querySelector(".modal__submit-btn")
 
 //select template by it's id
 const cardTemplate = document.querySelector("#card-template");
@@ -61,6 +63,7 @@ const initialCards = [
   },
 ];
 
+//.content is unique to when you're using template
 const cardElement = cardTemplate.content.querySelector(".card").cloneNode(true);
 
 //select the clone's title and image elements and store them in variables
@@ -69,16 +72,21 @@ const cardTitleEl = cardElement.querySelector(".card__title");
 
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
+  document.addEventListener("keydown", escapeHandler);
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal_is-opened");
+  document.removeEventListener("keydown", escapeHandler);
 }
 
 //EVENT LISTENERS
 editProfileBtn.addEventListener("click", function () {
   nameInput.value = profileNameElement.textContent;
   jobInput.value = profileJobElement.textContent;
+  //reset validation is optional
+  //what value sould "editForm" be?
+  resetValidation (profileFormElement, [nameInput, jobInput], settings);
   openModal(editProfileModal);
 });
 
@@ -87,6 +95,8 @@ editProfileCloseBtn.addEventListener("click", function () {
 });
 
 newPostBtn.addEventListener("click", function () {
+  // reset the new post form here
+  // resetVa(newPform, [imageInput, captionInput], sett)
   openModal(newPostModal);
 });
 
@@ -117,6 +127,9 @@ addCardFormElement.addEventListener("submit", (evt) => {
 
   //alternative way of consolidating the code above
   //cardList.prepend(getCardElement(newCardData));
+
+  
+toggleButtonState([descriptionInput, linkInput], submitButton, settings);
 
   // close the add card modal
   // empty the inputs
@@ -164,7 +177,7 @@ function getCardElement(data) {
   const cardTitleEl = cardElement.querySelector(".card__title");
 
   //Assign the data parameter’s link property to the image element’s src property.
-  cardImageEl.src = data.link;
+  cardImageEl.src = data.link; //passing information to the cardImageEl
 
   // Assign the data parameter’s name property to the image element’s alt property.
   cardImageEl.alt = data.name;
@@ -198,4 +211,27 @@ function getCardElement(data) {
 
   //return the cloned card element
   return cardElement;
+}
+
+
+
+//Code a feature that allows the users to close the modal by clicking on the overlay, i.e. anywhere outside the modal’s borders:
+
+const modals = document.querySelectorAll(".modal");
+modals.forEach((modal)=> {
+modal.addEventListener("click",(evt) => {
+  if (evt.target.classList.contains("modal_is-opened")){
+    closeModal(modal)
+  }
+});
+})
+
+//2b. Closing the modal by pressing the Escape key
+//Code a feature that allows the users to close the modal by pressing the Escape key. Keep in mind the following:
+
+function escapeHandler (evt) {
+  if (evt.key==="Escape"){
+    const openModal = document.querySelector(".modal_is-opened");
+    closeModal(openModal);
+  }
 }

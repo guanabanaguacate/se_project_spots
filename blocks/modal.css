@@ -68,13 +68,16 @@
     border: none;
 }
 
+.modal__submit-btn-disable{
+    background-color: rgba(33, 33, 33, 0.4);
+}
+
 .modal__submit-btn:hover{
     cursor: pointer;
     opacity: 80%;
 }
 
 .modal__input{
-    margin-bottom: 32px;
     padding: 16px;
     border-radius: 8px;
     border: 1px;
@@ -88,6 +91,15 @@
 .modal__input::placeholder{
     color: rgba(33, 33, 33, 0.3);
 }
+
+.modal__error{
+    display:block;
+    color: rgba(255, 0, 0, 0.7);
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 8px;
+    margin-bottom: 32px; 
+} 
 
 .modal__close-btn{
     position: absolute;
@@ -114,6 +126,10 @@
 
 .modal__input:focus{
     color: black;
+}
+
+.modal__input_type_error{
+    border: 1px solid rgba(255, 0, 0, 0.6);
 }
 
 .modal__container_type_preview{
