@@ -30,7 +30,11 @@ This webpage is deployed to GitHub pages
   
 * [Link to the project on Figma](https://www.figma.com/file/BBNm2bC3lj8QQMHlnqRsga/Sprint-3-Project-%E2%80%94-Spots?type=design&node-id=2%3A60&mode=design&t=afgNFybdorZO6cQo-1)
   
-## Video About Project 
+## Project Pitch Videos
 
-[Video Link](https://drive.google.com/drive/u/1/folders/1JY5kXLbfUJ5n15ODNdXNiTmOdJaXcyOt)
+Check out these videos, where I describe my project
+and some challenges I faced while building it:
 
+[First Video Link](https://drive.google.com/drive/u/1/folders/1JY5kXLbfUJ5n15ODNdXNiTmOdJaXcyOt)
+
+[Spots Stage 9 Video Link]  (https://www.loom.com/share/20bbe9ca930d44e8b89ca114036091cc)
