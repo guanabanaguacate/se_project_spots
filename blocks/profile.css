@@ -21,13 +21,13 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  opacity: 100%;
+  opacity: 1;
   border: none;
 }
 
 .profile__add-btn:hover {
   cursor: pointer;
-  opacity: 80%;
+  opacity: .8;
 }
 
 .profile__photo {
@@ -84,7 +84,7 @@
   background-color: transparent;
   width: fit-content;
   cursor: pointer;
-  opacity: 70%;
+  opacity: .7;
 }
 
 .profile__edit-btn:hover {

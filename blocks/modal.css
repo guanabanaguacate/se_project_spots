@@ -74,7 +74,7 @@
 
 .modal__submit-btn:hover{
     cursor: pointer;
-    opacity: 80%;
+    opacity: .8;
 }
 
 .modal__input{
@@ -153,11 +153,11 @@
 }
 
 .modal__caption{
-    display: relative;
+    position: relative;
     background-color: black;
     color: white;
     font-weight: 500;
-    size: 20px;
+    font-size: 20px;
     line-height: 120%;
     padding: 4px 8px;
     border-radius: 8px;

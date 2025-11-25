@@ -1,11 +1,11 @@
-const showInputError = (formEl, inputEl, errorMsg) => {
+const showInputError = ({ formEl, inputEl, errorMsg, config }) => {
   const errorMsgID = inputEl.id + "-error";
   const errorMsgEl = formEl.querySelector("#" + errorMsgID);
   errorMsgEl.textContent = errorMsg;
   inputEl.classList.add(config.inputErrorClass);
 };
 
-const hideInputError = (formEl, inputEl, config, errorMsg) => {
+const hideInputError = ({ config, formEl, inputEl }) => {
   const errorMsgID = inputEl.id + "-error";
   const errorMsgEl = formEl.querySelector("#" + errorMsgID);
   errorMsgEl.textContent = "";
@@ -16,9 +16,18 @@ const hideInputError = (formEl, inputEl, config, errorMsg) => {
 
 const checkInputValidity = (formEl, inputEl, config) => {
   if (!inputEl.validity.valid) {
-    showInputError(formEl, inputEl, inputEl.validationMessage, config);
+    showInputError({
+      formEl,
+      inputEl,
+      errorMsg: inputEl.validationMessage,
+      config,
+    });
   } else {
-    hideInputError(formEl, inputEl, config);
+    hideInputError({
+      formEl,
+      inputEl,
+      config,
+    });
   }
 };
 
@@ -51,16 +60,16 @@ const resetValidation = (formEl, inputList, config) => {
 };
 
 const setEventListeners = (formEl, config) => {
-    //grabs all input fields in a form and converts them from a node list to an array
+  //grabs all input fields in a form and converts them from a node list to an array
   const inputList = Array.from(formEl.querySelectorAll(config.inputSelector));
-  //grabs the submit button element 
+  //grabs the submit button element
   const buttonEl = formEl.querySelector(config.submitButtonSelector);
 
-//sets the default state which disabled
+  //sets the default state which disabled
   toggleButtonState(inputList, buttonEl, config);
 
-//it listens for input into the fields and checks validity of the information thats entered
-//and then adjusts the button accordingly
+  //it listens for input into the fields and checks validity of the information thats entered
+  //and then adjusts the button accordingly
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", function () {
       checkInputValidity(formEl, inputElement, config);
@@ -68,7 +77,6 @@ const setEventListeners = (formEl, config) => {
     });
   });
 };
-
 
 //sets up the validation for all forms on the page. you can call this
 //once and it will grabs everything that is a form and check the validity of the entire form

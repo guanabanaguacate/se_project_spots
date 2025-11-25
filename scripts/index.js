@@ -13,7 +13,7 @@ const newPostCloseBtn = newPostModal.querySelector(".modal__close-btn");
 const addCardFormElement = newPostModal.querySelector(".modal__form"); //why select the modal__form and not its parent modal__container including the buttons?
 const linkInput = newPostModal.querySelector("#new-post-link");
 const descriptionInput = newPostModal.querySelector("#new-post-caption");
-const submitButton = newPostModal.querySelector(".modal__submit-btn")
+const submitButton = newPostModal.querySelector(".modal__submit-btn");
 
 //select template by it's id
 const cardTemplate = document.querySelector("#card-template");
@@ -86,7 +86,7 @@ editProfileBtn.addEventListener("click", function () {
   jobInput.value = profileJobElement.textContent;
   //reset validation is optional
   //what value sould "editForm" be?
-  resetValidation (profileFormElement, [nameInput, jobInput], settings);
+  resetValidation(profileFormElement, [nameInput, jobInput], settings);
   openModal(editProfileModal);
 });
 
@@ -128,13 +128,11 @@ addCardFormElement.addEventListener("submit", (evt) => {
   //alternative way of consolidating the code above
   //cardList.prepend(getCardElement(newCardData));
 
-  
-toggleButtonState([descriptionInput, linkInput], submitButton, settings);
-
   // close the add card modal
   // empty the inputs
   closeModal(newPostModal);
   evt.target.reset();
+  toggleButtonState([descriptionInput, linkInput], submitButton, settings);
   //handleAddCardSubmit(evt);
 });
 
@@ -213,25 +211,23 @@ function getCardElement(data) {
   return cardElement;
 }
 
-
-
 //Code a feature that allows the users to close the modal by clicking on the overlay, i.e. anywhere outside the modal’s borders:
 
 const modals = document.querySelectorAll(".modal");
-modals.forEach((modal)=> {
-modal.addEventListener("click",(evt) => {
-  if (evt.target.classList.contains("modal_is-opened")){
-    closeModal(modal)
-  }
+modals.forEach((modal) => {
+  modal.addEventListener("click", (evt) => {
+    if (evt.target.classList.contains("modal")) {
+      closeModal(modal);
+    }
+  });
 });
-})
 
 //2b. Closing the modal by pressing the Escape key
 //Code a feature that allows the users to close the modal by pressing the Escape key. Keep in mind the following:
 
-function escapeHandler (evt) {
-  if (evt.key==="Escape"){
-    const openModal = document.querySelector(".modal_is-opened");
-    closeModal(openModal);
+function escapeHandler(evt) {
+  if (evt.key === "Escape") {
+    const modalIsOpenedElement = document.querySelector(".modal_is-opened");
+    closeModal(modalIsOpenedElement);
   }
 }
