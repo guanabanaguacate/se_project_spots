@@ -1,4 +1,4 @@
-const showInputError = (formEl, inputEl, errorMsg, config ) => {
+const showInputError = (formEl, inputEl, errorMsg, config) => {
   const errorMsgID = inputEl.id + "-error";
   const errorMsgEl = formEl.querySelector("#" + errorMsgID);
   errorMsgEl.textContent = errorMsg;
@@ -16,18 +16,9 @@ const hideInputError = (formEl, inputEl, config) => {
 
 const checkInputValidity = (formEl, inputEl, config) => {
   if (!inputEl.validity.valid) {
-    showInputError(
-      formEl,
-      inputEl,
-      inputEl.validationMessage,
-      config,
-    );
+    showInputError(formEl, inputEl, inputEl.validationMessage, config);
   } else {
-    hideInputError(
-      formEl,
-      inputEl,
-      config,
-    );
+    hideInputError(formEl, inputEl, config);
   }
 };
 

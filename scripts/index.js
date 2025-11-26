@@ -85,7 +85,6 @@ editProfileBtn.addEventListener("click", function () {
   nameInput.value = profileNameElement.textContent;
   jobInput.value = profileJobElement.textContent;
   //reset validation is optional
-  //what value sould "editForm" be?
   resetValidation(profileFormElement, [nameInput, jobInput], settings);
   openModal(editProfileModal);
 });
@@ -95,12 +94,10 @@ editProfileCloseBtn.addEventListener("click", function () {
 });
 
 newPostBtn.addEventListener("click", function () {
-  //linkInput.value =
-  //descriptionInput.value = 
   // reset the new post form here
-  // resetVa(newPform, [imageInput, captionInput], sett)
-  //(formEl, inputList, config)
-  //resetValidation(newPostBtn, [linkInput, descriptionInput], settings);
+  addCardFormElement.reset();
+  //rest validation here
+  resetValidation(addCardFormElement, [linkInput, descriptionInput], settings);
   openModal(newPostModal);
 });
 
