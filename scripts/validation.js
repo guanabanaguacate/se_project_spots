@@ -1,11 +1,11 @@
-const showInputError = ({ formEl, inputEl, errorMsg, config }) => {
+const showInputError = (formEl, inputEl, errorMsg, config ) => {
   const errorMsgID = inputEl.id + "-error";
   const errorMsgEl = formEl.querySelector("#" + errorMsgID);
   errorMsgEl.textContent = errorMsg;
   inputEl.classList.add(config.inputErrorClass);
 };
 
-const hideInputError = ({ config, formEl, inputEl }) => {
+const hideInputError = (formEl, inputEl, config) => {
   const errorMsgID = inputEl.id + "-error";
   const errorMsgEl = formEl.querySelector("#" + errorMsgID);
   errorMsgEl.textContent = "";
@@ -16,18 +16,18 @@ const hideInputError = ({ config, formEl, inputEl }) => {
 
 const checkInputValidity = (formEl, inputEl, config) => {
   if (!inputEl.validity.valid) {
-    showInputError({
+    showInputError(
       formEl,
       inputEl,
-      errorMsg: inputEl.validationMessage,
+      inputEl.validationMessage,
       config,
-    });
+    );
   } else {
-    hideInputError({
+    hideInputError(
       formEl,
       inputEl,
       config,
-    });
+    );
   }
 };
 

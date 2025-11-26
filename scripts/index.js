@@ -95,8 +95,12 @@ editProfileCloseBtn.addEventListener("click", function () {
 });
 
 newPostBtn.addEventListener("click", function () {
+  //linkInput.value =
+  //descriptionInput.value = 
   // reset the new post form here
   // resetVa(newPform, [imageInput, captionInput], sett)
+  //(formEl, inputList, config)
+  //resetValidation(newPostBtn, [linkInput, descriptionInput], settings);
   openModal(newPostModal);
 });
 
