@@ -1,5 +1,28 @@
 import "../pages/index.css"; 
 import { enableValidation, disableButton, resetValidation, settings } from "../scripts/validation.js";
+import Api from "../scripts/Api.js";
+
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "447cc5c7-8732-411c-ac01-1b197e9caa1d",
+    "Content-Type": "application/json"
+  }
+});
+
+api.getInitialCards().then((cards) => {
+  cards.forEach((item) => {
+    const cardEl = getCardElement(item);
+    cardList.append(cardEl);
+  }) 
+});
+
+//create Loop to select each initial card element and add them one by one after the next
+initialCards.forEach((item) => {
+  const cardElement = getCardElement(item);
+  //prepend the created card element to the appropriate HTML container (the one where the hardcoed cards were located)
+  cardList.prepend(cardElement);
+});
 
 //when you call an element, think about what it is supposed to do and the reason why you need to call it
 const editProfileBtn = document.querySelector(".profile__edit-btn");
@@ -155,13 +178,6 @@ function handleProfileFormSubmit(evt) {
   fillInputFields();
   closeModal(editProfileModal);
 }
-
-//create Loop to select each initial card element and add them one by one after the next
-initialCards.forEach((item) => {
-  const cardElement = getCardElement(item);
-  //prepend the created card element to the appropriate HTML container (the one where the hardcoed cards were located)
-  cardList.prepend(cardElement);
-});
 
 //create Function from Loop
 //clone the content of the template
