@@ -1,3 +1,6 @@
+import "../pages/index.css"; 
+import { enableValidation, disableButton, resetValidation, settings } from "../scripts/validation.js";
+
 //when you call an element, think about what it is supposed to do and the reason why you need to call it
 const editProfileBtn = document.querySelector(".profile__edit-btn");
 const editProfileModal = document.querySelector("#edit-profile-modal");

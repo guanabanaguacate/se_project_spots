@@ -38,13 +38,13 @@ const toggleButtonState = (inputList, buttonEl, config) => {
   }
 };
 
-const disableButton = (buttonEl, config) => {
+export const disableButton = (buttonEl, config) => {
   buttonEl.disabled = true;
   buttonEl.classList.add(config.inactiveButtonClass);
 };
 
 //resets any validation error messages/states whenever you open the modal
-const resetValidation = (formEl, inputList, config) => {
+export const resetValidation = (formEl, inputList, config) => {
   inputList.forEach((input) => {
     hideInputError(formEl, input, config);
   });
@@ -71,7 +71,7 @@ const setEventListeners = (formEl, config) => {
 
 //sets up the validation for all forms on the page. you can call this
 //once and it will grabs everything that is a form and check the validity of the entire form
-const enableValidation = (config) => {
+export const enableValidation = (config) => {
   const formList = Array.from(document.querySelectorAll(config.formSelector));
   formList.forEach((formEl) => {
     setEventListeners(formEl, config);
@@ -80,7 +80,7 @@ const enableValidation = (config) => {
 
 // Declaring a configuration object that contains the
 // necessary classes and selectors.
-const settings = {
+export const settings = {
   formSelector: ".modal__form",
   inputSelector: ".modal__input",
   submitButtonSelector: ".modal__submit-btn",
