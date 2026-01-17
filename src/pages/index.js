@@ -98,9 +98,6 @@ const cardElement = cardTemplate.content.querySelector(".card").cloneNode(true);
 const cardImageEl = cardElement.querySelector(".card__image");
 const cardTitleEl = cardElement.querySelector(".card__title");
 
-const modals = document.querySelectorAll(".modal");
-
-
 function escapeHandler(evt) {
   if (evt.key === "Escape") {
     const activePopup = document.querySelector(".modal_is-opened");
@@ -187,19 +184,17 @@ closeModalPreview.addEventListener("click", () => {
       .catch(console.error);
   }
 
-      //Preview Image Modal
-    cardImageEl.addEventListener("click", () => {
-      titleModal.textContent = data.name;
-      imageModal.src = data.link; //should this be linked to the card__image ?
-      imageModal.alt = data.name;
+//Avatar edit modal submission
+avatarModalSubmitBtn.addEventListener("submit", (evt) => {
+  evt.preventDefault();
+  const photoLink = avatarInput.value;
 
-      openModal(modalPreview);
-    });
 
-        const deleteBtn = cardElement.querySelector(".card__delete-btn");
-    deleteBtn.addEventListener("click", () => {
-      deleteBtn.closest(".card").remove();
-    });
+  //function fillInputFields() {
+  //profileNameElement.textContent = nameInput.value;
+  //profileJobElement.textContent = jobInput.value;
+  //}
+
 
   function getCardElement(data) {
     const cardElement = cardTemplate.content
@@ -215,15 +210,19 @@ closeModalPreview.addEventListener("click", () => {
     cardImageEl.alt = data.name;
     cardTitleEl.textContent = data.name;
 
-//Avatar edit modal submission
-avatarModalSubmitBtn.addEventListener("submit", (evt) => {
-  evt.preventDefault();
-  const photoLink = avatarInput.value;
+    const deleteBtn = cardElement.querySelector(".card__delete-btn");
+    deleteBtn.addEventListener("click", () => {
+      deleteBtn.closest(".card").remove();
+    });
 
-  //function fillInputFields() {
-  //profileNameElement.textContent = nameInput.value;
-  //profileJobElement.textContent = jobInput.value;
-  //}
+    //Preview Image Modal
+    cardImageEl.addEventListener("click", () => {
+      titleModal.textContent = data.name;
+      imageModal.src = data.link; //should this be linked to the card__image ?
+      imageModal.alt = data.name;
+
+      openModal(modalPreview);
+    });
 
     //when the user clicks on the card’s heart-shaped “like button,” the heart's color should change.
     const likeButton = cardElement.querySelector(".card__like-button");
@@ -235,6 +234,7 @@ avatarModalSubmitBtn.addEventListener("submit", (evt) => {
   }
 
   //Code a feature that allows the users to close the modal by clicking on the overlay, i.e. anywhere outside the modal’s borders:
+  const modals = document.querySelectorAll(".modal");
   modals.forEach((modal) => {
     modal.addEventListener("click", (evt) => {
       if (evt.target.classList.contains("modal")) {
