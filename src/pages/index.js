@@ -1,27 +1,39 @@
-import "../pages/index.css"; 
-import { enableValidation, disableButton, resetValidation, settings } from "../scripts/validation.js";
+import "../pages/index.css";
+import {
+  enableValidation,
+  disableButton,
+  resetValidation,
+  settings,
+} from "../scripts/validation.js";
 import Api from "../utils/Api.js";
 
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
   headers: {
     authorization: "447cc5c7-8732-411c-ac01-1b197e9caa1d",
-    "Content-Type": "application/json"
-  }
+    "Content-Type": "application/json",
+  },
 });
 
-api.getAppInfo().then(([cards]) => {
-  cards.forEach((item) => {
-    const cardEl = getCardElement(item);
-    cardList.append(cardEl);
-  });
-})
+//DESTRUCTURE THE SECOND ITEM IN THE CALLBACK OF THE .then()
+api
+  .getAppInfo()
+  .then(([cards]) => {
+    cards.forEach((item) => {
+      const cardEl = getCardElement(item);
+      cardList.append(cardEl);
+    });
+
+    //HANDLE USERS INFORMATION
+    // -SET THE SRC OF THE AVATAR IMAGE
+    // -SET THE TEXT CONTENT OF BOTH THE TEXT ELEMENTS
+    // -CHECK IF IT WORKED (MIN 3:01 VIDEO 4)
+  })
   .catch(console.error);
 
 //create Loop to select each initial card element and add them one by one after the next
 initialCards.forEach((item) => {
   const cardElement = getCardElement(item);
-  //prepend the created card element to the appropriate HTML container (the one where the hardcoed cards were located)
   cardList.prepend(cardElement);
 });
 
@@ -41,28 +53,18 @@ const addCardFormElement = newPostModal.querySelector(".modal__form"); //why sel
 const linkInput = newPostModal.querySelector("#new-post-link");
 const descriptionInput = newPostModal.querySelector("#new-post-caption");
 const submitButton = newPostModal.querySelector(".modal__submit-btn");
-
-//select template by it's id
 const cardTemplate = document.querySelector("#card-template");
-
 //Scope question: The preview image modal is not apart of the cloned template card
 //elements in the DOM. How does the Scope of the preview image modal and the cloned
 //card nodes compare? Right now, the JavaScript for the preview is in the Universal
 //scope and it works.
-
-//This is selecting the preview image modal
 const modalPreview = document.querySelector("#preview-image-modal");
-
 const imageModal = modalPreview.querySelector(".modal__image"); // Select the modalImageEl from your modalPreview
 const titleModal = modalPreview.querySelector(".modal__caption"); //
-
-//This is selecting the preview image modal button
 const closeModalPreview = modalPreview.querySelector(
   ".modal__close-btn_type_preview"
 );
-
 const cardList = document.querySelector(".cards__list");
-
 const initialCards = [
   {
     name: "Val Thorens",
@@ -89,11 +91,7 @@ const initialCards = [
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
   },
 ];
-
-//.content is unique to when you're using template
 const cardElement = cardTemplate.content.querySelector(".card").cloneNode(true);
-
-//select the clone's title and image elements and store them in variables
 const cardImageEl = cardElement.querySelector(".card__image");
 const cardTitleEl = cardElement.querySelector(".card__title");
 
@@ -107,11 +105,9 @@ function closeModal(modal) {
   document.removeEventListener("keydown", escapeHandler);
 }
 
-//EVENT LISTENERS
 editProfileBtn.addEventListener("click", function () {
   nameInput.value = profileNameElement.textContent;
   jobInput.value = profileJobElement.textContent;
-  //reset validation is optional
   resetValidation(profileFormElement, [nameInput, jobInput], settings);
   openModal(editProfileModal);
 });
@@ -123,7 +119,6 @@ editProfileCloseBtn.addEventListener("click", function () {
 newPostBtn.addEventListener("click", function () {
   // reset the new post form here
   addCardFormElement.reset();
-  //rest validation here
   resetValidation(addCardFormElement, [linkInput, descriptionInput], settings);
   openModal(newPostModal);
 });
@@ -132,7 +127,6 @@ newPostCloseBtn.addEventListener("click", function () {
   closeModal(newPostModal);
 });
 
-//this code has an event listener on the close button on the preview image modal
 closeModalPreview.addEventListener("click", () => {
   closeModal(modalPreview);
 });
@@ -142,46 +136,40 @@ addCardFormElement.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const cardName = descriptionInput.value;
   const cardLink = linkInput.value;
-  //create a data object with the form values
   const newCardData = {
     name: cardName,
     link: cardLink,
   };
-  //Why does this variable need to exist inside of this event listener?
-  //create and add the card
   const newCardElement = getCardElement(newCardData);
-  //add it as the first element in the container
   cardList.prepend(newCardElement);
-
   //alternative way of consolidating the code above
   //cardList.prepend(getCardElement(newCardData));
 
-  // close the add card modal
-  // empty the inputs
   closeModal(newPostModal);
   evt.target.reset();
   toggleButtonState([descriptionInput, linkInput], submitButton, settings);
   //handleAddCardSubmit(evt);
 });
 
-//is this line of code doing anything?
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 
-//FUNCTIONS
-function fillInputFields() {
-  profileNameElement.textContent = nameInput.value;
-  profileJobElement.textContent = jobInput.value;
-}
+//function fillInputFields() {
+  //profileNameElement.textContent = nameInput.value;
+  //profileJobElement.textContent = jobInput.value;
+//}
 
-//core javascript concept: objects. by default, a function creates a js object...
 function handleProfileFormSubmit(evt) {
   evt.preventDefault(); //prevents the page from reloading and by default removing anything you type into the form
-  fillInputFields();
-  closeModal(editProfileModal);
+  api
+    .editUserInfo({ name: nameInput.value, about: jobInput.value })
+    .then((data) => {
+      profileNameElement.textContent = data.name;
+      profileJobElement.textContent = data.about;
+      closeModal(editProfileModal);
+    })
+    .catch(console.error);
 }
 
-//create Function from Loop
-//clone the content of the template
 function getCardElement(data) {
   const cardElement = cardTemplate.content
     .querySelector(".card")
@@ -189,19 +177,11 @@ function getCardElement(data) {
 
   //Add all JavaScript activities that need to happen on the clone
   //INSIDE of this Function that clones each DOM element from the
-  //template created in the HTML
-
-  //select the clone's title and image elements and store them in variables
   const cardImageEl = cardElement.querySelector(".card__image");
   const cardTitleEl = cardElement.querySelector(".card__title");
 
-  //Assign the data parameter’s link property to the image element’s src property.
   cardImageEl.src = data.link; //passing information to the cardImageEl
-
-  // Assign the data parameter’s name property to the image element’s alt property.
   cardImageEl.alt = data.name;
-
-  // Assign the data parameter’s name property to the name element’s textContent property.
   cardTitleEl.textContent = data.name;
 
   const deleteBtn = cardElement.querySelector(".card__delete-btn");
@@ -211,29 +191,23 @@ function getCardElement(data) {
 
   //Preview Image Modal
   cardImageEl.addEventListener("click", () => {
-    //Set the text of the modal’s caption element.
     titleModal.textContent = data.name;
-    //Set the src of the modal’s image element.
     imageModal.src = data.link; //should this be linked to the card__image ?
-    //Set the alt of the modal’s image element.
     imageModal.alt = data.name;
 
     openModal(modalPreview);
   });
 
   //when the user clicks on the card’s heart-shaped “like button,” the heart's color should change.
-  // Select the card element's like button
   const likeButton = cardElement.querySelector(".card__like-button");
   likeButton.addEventListener("click", () => {
     likeButton.classList.toggle("card__like-button_is-active");
   });
 
-  //return the cloned card element
   return cardElement;
 }
 
 //Code a feature that allows the users to close the modal by clicking on the overlay, i.e. anywhere outside the modal’s borders:
-
 const modals = document.querySelectorAll(".modal");
 modals.forEach((modal) => {
   modal.addEventListener("click", (evt) => {
