@@ -17,11 +17,20 @@
       </header>
       <main class="content">
         <section class="profile page__section">
+          <div class="profile__avatar-container">
+          <button class="profile__avatar-btn"></button>
+           <img
+            class="profile__pencil-icon"
+            //??WHICH IMAGE??
+            src="<%=require('./images/pencil-light.svg')%>"
+            alt="Pencil icon"
+          />
           <img
-            class="profile__photo"
+            class="profile__avatar"
             src="<%=require('./images/avatar.jpg')%>"
             alt="Bessie Colman"
           />
+          </div>
           <div class="profile__column">
             <h1 class="profile__name">Bessie Coleman</h1>
             <p class="profile__description">Civil Aviator</p>
