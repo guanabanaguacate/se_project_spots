@@ -10,15 +10,13 @@ const api = new Api({
   }
 });
 
-api.getInitialCards().then((cards) => {
+api.getAppInfo().then(([cards]) => {
   cards.forEach((item) => {
     const cardEl = getCardElement(item);
     cardList.append(cardEl);
   });
 })
-  .catch((err) => {
-console.error(err);
-  });
+  .catch(console.error);
 
 //create Loop to select each initial card element and add them one by one after the next
 initialCards.forEach((item) => {
