@@ -1,7 +1,7 @@
 class Api {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
-    this._header = headers;
+    this._headers = headers;
   }
 
   getAppInfo() {
@@ -22,13 +22,9 @@ class Api {
     });
   }
 
-//CREATE ANOTHER METHOD, getUserInfo (DIFFERENT BASE URL)
 getUserInfo(){
   return fetch(`${this._baseUrl}/users/me`, {
-    //??headers: this._headers,
-    //??body:JSON.stringify({
-    //name,
-    //about,})
+    headers: this._headers,
   }).then((res) => {
       if (res.ok) {
         return res.json();

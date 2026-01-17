@@ -14,28 +14,15 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
-
+console.log(api);
+const profilePhotoImage = document.querySelector(".profile__photo");
 //DESTRUCTURE THE SECOND ITEM IN THE CALLBACK OF THE .then()
-api
-  .getAppInfo()
-  .then(([cards]) => {
-    cards.forEach((item) => {
-      const cardEl = getCardElement(item);
-      cardList.append(cardEl);
-    });
-
-    //HANDLE USERS INFORMATION
-    // -SET THE SRC OF THE AVATAR IMAGE
-    // -SET THE TEXT CONTENT OF BOTH THE TEXT ELEMENTS
-    // -CHECK IF IT WORKED (MIN 3:01 VIDEO 4)
-  })
-  .catch(console.error);
 
 //create Loop to select each initial card element and add them one by one after the next
-initialCards.forEach((item) => {
-  const cardElement = getCardElement(item);
-  cardList.prepend(cardElement);
-});
+// initialCards.forEach((item) => {
+//   const cardElement = getCardElement(item);
+//   cardList.prepend(cardElement);
+// });
 
 //when you call an element, think about what it is supposed to do and the reason why you need to call it
 const editProfileBtn = document.querySelector(".profile__edit-btn");
@@ -43,13 +30,27 @@ const editProfileModal = document.querySelector("#edit-profile-modal");
 const editProfileCloseBtn = editProfileModal.querySelector(".modal__close-btn");
 const profileNameElement = document.querySelector(".profile__name");
 const profileJobElement = document.querySelector(".profile__description");
+
+const newPostModal = document.querySelector("#new-post-modal");
+
 const profileFormElement = editProfileModal.querySelector(".modal__form");
+const addCardFormElement = newPostModal.querySelector(".modal__form"); //why select the modal__form and not its parent modal__container including the buttons?
+const newPostCloseBtn = newPostModal.querySelector(".modal__close-btn");
+
+//CREATE PROFILE PHOTO AVATAR SELECTORS. VIDEO 5 18:05
+const avatarProfileBtn = document.querySelector(".profile__photo-btn");
+const avatarEditModal = document.querySelector("#avatar-profile-modal");
+const avatarModalCloseBtn = avatarEditModal.querySelector(".modal__close-btn");
+const avatarModalSubmitBtn =
+  avatarEditModal.querySelector(".modal__submit-btn");
+
+//DELETE FORM ELEMENTS
+const deleteModal = document.querySelector("#delete-modal");
+
+const avatarInput = avatarEditModal.querySelector("#profile-photo-input");
 const nameInput = editProfileModal.querySelector("#profile-name-input");
 const jobInput = editProfileModal.querySelector("#profile-description-input");
 const newPostBtn = document.querySelector(".profile__add-btn");
-const newPostModal = document.querySelector("#new-post-modal");
-const newPostCloseBtn = newPostModal.querySelector(".modal__close-btn");
-const addCardFormElement = newPostModal.querySelector(".modal__form"); //why select the modal__form and not its parent modal__container including the buttons?
 const linkInput = newPostModal.querySelector("#new-post-link");
 const descriptionInput = newPostModal.querySelector("#new-post-caption");
 const submitButton = newPostModal.querySelector(".modal__submit-btn");
@@ -58,12 +59,14 @@ const cardTemplate = document.querySelector("#card-template");
 //elements in the DOM. How does the Scope of the preview image modal and the cloned
 //card nodes compare? Right now, the JavaScript for the preview is in the Universal
 //scope and it works.
+
 const modalPreview = document.querySelector("#preview-image-modal");
 const imageModal = modalPreview.querySelector(".modal__image"); // Select the modalImageEl from your modalPreview
 const titleModal = modalPreview.querySelector(".modal__caption"); //
 const closeModalPreview = modalPreview.querySelector(
   ".modal__close-btn_type_preview"
 );
+
 const cardList = document.querySelector(".cards__list");
 const initialCards = [
   {
@@ -95,6 +98,16 @@ const cardElement = cardTemplate.content.querySelector(".card").cloneNode(true);
 const cardImageEl = cardElement.querySelector(".card__image");
 const cardTitleEl = cardElement.querySelector(".card__title");
 
+const modals = document.querySelectorAll(".modal");
+
+
+function escapeHandler(evt) {
+  if (evt.key === "Escape") {
+    const activePopup = document.querySelector(".modal_is-opened");
+    closeModal(activePopup);
+  }
+}
+
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
   document.addEventListener("keydown", escapeHandler);
@@ -104,6 +117,15 @@ function closeModal(modal) {
   modal.classList.remove("modal_is-opened");
   document.removeEventListener("keydown", escapeHandler);
 }
+
+avatarProfileBtn.addEventListener("click", function () {
+  avatarInput.value = "to do";
+  openModal(avatarEditModal);
+});
+
+avatarModalCloseBtn.addEventListener("click", function () {
+  closeModal(avatarEditModal);
+});
 
 editProfileBtn.addEventListener("click", function () {
   nameInput.value = profileNameElement.textContent;
@@ -131,98 +153,123 @@ closeModalPreview.addEventListener("click", () => {
   closeModal(modalPreview);
 });
 
-//"NEW POST" MODAL SUBMISSION
-addCardFormElement.addEventListener("submit", (evt) => {
+  //"NEW POST" MODAL SUBMISSION
+  addCardFormElement.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+    const cardName = descriptionInput.value;
+    const cardLink = linkInput.value;
+    const newCardData = {
+      name: cardName,
+      link: cardLink,
+    };
+    const newCardElement = getCardElement(newCardData);
+    cardList.prepend(newCardElement);
+    //alternative way of consolidating the code above
+    //cardList.prepend(getCardElement(newCardData));
+
+    closeModal(newPostModal);
+    evt.target.reset();
+    toggleButtonState([descriptionInput, linkInput], submitButton, settings);
+    //handleAddCardSubmit(evt);
+  });
+
+  profileFormElement.addEventListener("submit", handleProfileFormSubmit);
+
+  function handleProfileFormSubmit(evt) {
+    evt.preventDefault(); //prevents the page from reloading and by default removing anything you type into the form
+    api
+      .editUserInfo({ name: nameInput.value, about: jobInput.value })
+      .then((data) => {
+        profileNameElement.textContent = data.name;
+        profileJobElement.textContent = data.about;
+        closeModal(editProfileModal);
+      })
+      .catch(console.error);
+  }
+
+      //Preview Image Modal
+    cardImageEl.addEventListener("click", () => {
+      titleModal.textContent = data.name;
+      imageModal.src = data.link; //should this be linked to the card__image ?
+      imageModal.alt = data.name;
+
+      openModal(modalPreview);
+    });
+
+        const deleteBtn = cardElement.querySelector(".card__delete-btn");
+    deleteBtn.addEventListener("click", () => {
+      deleteBtn.closest(".card").remove();
+    });
+
+  function getCardElement(data) {
+    const cardElement = cardTemplate.content
+      .querySelector(".card")
+      .cloneNode(true);
+
+    //Add all JavaScript activities that need to happen on the clone
+    //INSIDE of this Function that clones each DOM element from the
+    const cardImageEl = cardElement.querySelector(".card__image");
+    const cardTitleEl = cardElement.querySelector(".card__title");
+
+    cardImageEl.src = data.link; //passing information to the cardImageEl
+    cardImageEl.alt = data.name;
+    cardTitleEl.textContent = data.name;
+
+//Avatar edit modal submission
+avatarModalSubmitBtn.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  const cardName = descriptionInput.value;
-  const cardLink = linkInput.value;
-  const newCardData = {
-    name: cardName,
-    link: cardLink,
-  };
-  const newCardElement = getCardElement(newCardData);
-  cardList.prepend(newCardElement);
-  //alternative way of consolidating the code above
-  //cardList.prepend(getCardElement(newCardData));
+  const photoLink = avatarInput.value;
 
-  closeModal(newPostModal);
-  evt.target.reset();
-  toggleButtonState([descriptionInput, linkInput], submitButton, settings);
-  //handleAddCardSubmit(evt);
-});
-
-profileFormElement.addEventListener("submit", handleProfileFormSubmit);
-
-//function fillInputFields() {
+  //function fillInputFields() {
   //profileNameElement.textContent = nameInput.value;
   //profileJobElement.textContent = jobInput.value;
-//}
+  //}
 
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault(); //prevents the page from reloading and by default removing anything you type into the form
-  api
-    .editUserInfo({ name: nameInput.value, about: jobInput.value })
-    .then((data) => {
-      profileNameElement.textContent = data.name;
-      profileJobElement.textContent = data.about;
-      closeModal(editProfileModal);
-    })
-    .catch(console.error);
-}
+    //when the user clicks on the card’s heart-shaped “like button,” the heart's color should change.
+    const likeButton = cardElement.querySelector(".card__like-button");
+    likeButton.addEventListener("click", () => {
+      likeButton.classList.toggle("card__like-button_is-active");
+    });
 
-function getCardElement(data) {
-  const cardElement = cardTemplate.content
-    .querySelector(".card")
-    .cloneNode(true);
+    return cardElement;
+  }
 
-  //Add all JavaScript activities that need to happen on the clone
-  //INSIDE of this Function that clones each DOM element from the
-  const cardImageEl = cardElement.querySelector(".card__image");
-  const cardTitleEl = cardElement.querySelector(".card__title");
-
-  cardImageEl.src = data.link; //passing information to the cardImageEl
-  cardImageEl.alt = data.name;
-  cardTitleEl.textContent = data.name;
-
-  const deleteBtn = cardElement.querySelector(".card__delete-btn");
-  deleteBtn.addEventListener("click", () => {
-    deleteBtn.closest(".card").remove();
+  //Code a feature that allows the users to close the modal by clicking on the overlay, i.e. anywhere outside the modal’s borders:
+  modals.forEach((modal) => {
+    modal.addEventListener("click", (evt) => {
+      if (evt.target.classList.contains("modal")) {
+        closeModal(modal);
+      }
+    });
   });
 
-  //Preview Image Modal
-  cardImageEl.addEventListener("click", () => {
-    titleModal.textContent = data.name;
-    imageModal.src = data.link; //should this be linked to the card__image ?
-    imageModal.alt = data.name;
+  //2b. Closing the modal by pressing the Escape key
+  //Code a feature that allows the users to close the modal by pressing the Escape key. Keep in mind the following:
 
-    openModal(modalPreview);
-  });
-
-  //when the user clicks on the card’s heart-shaped “like button,” the heart's color should change.
-  const likeButton = cardElement.querySelector(".card__like-button");
-  likeButton.addEventListener("click", () => {
-    likeButton.classList.toggle("card__like-button_is-active");
-  });
-
-  return cardElement;
-}
-
-//Code a feature that allows the users to close the modal by clicking on the overlay, i.e. anywhere outside the modal’s borders:
-const modals = document.querySelectorAll(".modal");
-modals.forEach((modal) => {
-  modal.addEventListener("click", (evt) => {
-    if (evt.target.classList.contains("modal")) {
-      closeModal(modal);
+  function escapeHandler(evt) {
+    if (evt.key === "Escape") {
+      const modalIsOpenedElement = document.querySelector(".modal_is-opened");
+      closeModal(modalIsOpenedElement);
     }
-  });
+  }
 });
 
-//2b. Closing the modal by pressing the Escape key
-//Code a feature that allows the users to close the modal by pressing the Escape key. Keep in mind the following:
+api
+  .getAppInfo()
+  .then(([userInfo, cards]) => {
+    cards.forEach((item) => {
+      const cardEl = getCardElement(item);
+      cardList.append(cardEl);
+    });
 
-function escapeHandler(evt) {
-  if (evt.key === "Escape") {
-    const modalIsOpenedElement = document.querySelector(".modal_is-opened");
-    closeModal(modalIsOpenedElement);
-  }
-}
+    //HANDLE USERS INFORMATION
+    // -SET THE SRC OF THE AVATAR IMAGE
+    // -SET THE TEXT CONTENT OF BOTH THE TEXT ELEMENTS
+    // -CHECK IF IT WORKED (MIN 3:01 VIDEO 4)
+
+    console.log(userInfo);
+    //profilePhotoImage.src = userInfo.?
+    profileNameElement.textContent = userInfo.name;
+    profileJobElement.textContent = userInfo.about;
+  })
+  .catch(console.error);
