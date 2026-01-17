@@ -1,6 +1,6 @@
 import "../pages/index.css"; 
 import { enableValidation, disableButton, resetValidation, settings } from "../scripts/validation.js";
-import Api from "../scripts/Api.js";
+import Api from "../utils/Api.js";
 
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
@@ -14,8 +14,11 @@ api.getInitialCards().then((cards) => {
   cards.forEach((item) => {
     const cardEl = getCardElement(item);
     cardList.append(cardEl);
-  }) 
-});
+  });
+})
+  .catch((err) => {
+console.error(err);
+  });
 
 //create Loop to select each initial card element and add them one by one after the next
 initialCards.forEach((item) => {
