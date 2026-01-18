@@ -123,6 +123,15 @@ function getCardElement(data) {
     likeButton.classList.toggle("card__like-button_is-active");
   });
 
+function handleLike (evt, id) {
+  // remove - evt.target/classList.toggle("card__like-button_is-active");
+  //check whether card is currently liked or not
+  //call the changeLikeStatus method??, passing it the appropriate arguments
+  //handle the response (.then and .catch)
+  //toggle the active class in the .then so that the change is visible in the DOM
+}
+
+
   let cardReadyToBeDeleted = null;
   let cardReadyToBeDeletedEl = null;
 
