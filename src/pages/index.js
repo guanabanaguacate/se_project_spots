@@ -40,12 +40,13 @@ const newPostCloseBtn = newPostModal.querySelector(".modal__close-btn");
 const avatarProfileBtn = document.querySelector(".profile__photo-btn");
 const avatarEditModal = document.querySelector("#avatar-profile-modal");
 const avatarModalCloseBtn = avatarEditModal.querySelector(".modal__close-btn");
-const avatarModalSubmitBtn = avatarEditModal.querySelector(".modal__submit-btn");
+const avatarModalSubmitBtn =
+  avatarEditModal.querySelector(".modal__submit-btn");
 const avatarPhotoForm = avatarEditModal.querySelector(".modal__form");
 
 //DELETE FORM ELEMENTS
 const deleteModal = document.querySelector("#delete-modal");
-const deleteModalSubmit = deleteModal.querySelector('#delete-modal-submit');
+const deleteModalSubmit = deleteModal.querySelector("#delete-modal-submit");
 
 const avatarInput = avatarEditModal.querySelector("#profile-photo-input");
 const nameInput = editProfileModal.querySelector("#profile-name-input");
@@ -105,32 +106,32 @@ function escapeHandler(evt) {
   }
 }
 
+const cardImageEl = cardElement.querySelector(".card__image");
+const cardTitleEl = cardElement.querySelector(".card__title");
+const deleteBtn = cardElement.querySelector(".card__delete-btn");
+const likeButton = cardElement.querySelector(".card__like-button");
+
 function getCardElement(data) {
   const cardElement = cardTemplate.content
     .querySelector(".card")
     .cloneNode(true);
-  const cardImageEl = cardElement.querySelector(".card__image");
-  const cardTitleEl = cardElement.querySelector(".card__title");
-  const deleteBtn = cardElement.querySelector(".card__delete-btn");
-  const likeButton = cardElement.querySelector(".card__like-button");
 
   cardImageEl.src = data.link; //passing information to the cardImageEl
   cardImageEl.alt = data.name;
   cardTitleEl.textContent = data.name;
 
- //click on the card’s heart-shaped “like button,” the heart's color should change.
+  //click on the card’s heart-shaped “like button,” the heart's color should change.
   likeButton.addEventListener("click", () => {
     likeButton.classList.toggle("card__like-button_is-active");
   });
 
-function handleLike (evt, id) {
-  // remove - evt.target/classList.toggle("card__like-button_is-active");
-  //check whether card is currently liked or not
-  //call the changeLikeStatus method??, passing it the appropriate arguments
-  //handle the response (.then and .catch)
-  //toggle the active class in the .then so that the change is visible in the DOM
-}
-
+  function handleLike(evt, id) {
+    // remove - evt.target/classList.toggle("card__like-button_is-active");
+    //check whether card is currently liked or not
+    //call the changeLikeStatus method??, passing it the appropriate arguments
+    //handle the response (.then and .catch)
+    //toggle the active class in the .then so that the change is visible in the DOM
+  }
 
   let cardReadyToBeDeleted = null;
   let cardReadyToBeDeletedEl = null;
@@ -148,7 +149,7 @@ function handleLike (evt, id) {
   //Preview Image Modal
   cardImageEl.addEventListener("click", () => {
     titleModal.textContent = data.name;
-    imageModal.src = data.link; //should this be linked to the card__image ?
+    imageModal.src = data.link;
     imageModal.alt = data.name;
 
     openModal(modalPreview);
@@ -164,26 +165,33 @@ function handleDeleteCard(cardElement, cardId) {
   openModal(deleteModal);
 }
 
-function handleDeleteSubmit(evt){
+function handleDeleteSubmit(evt) {
   evt.preventDefault();
-  api.deleteCard(cardReadyToBeDeleted).then(() => {
-    cardReadyToBeDeletedEl.remove();
-    closeModal(deleteModal);
+  api
+    .deleteCard(cardReadyToBeDeleted)
+    .then(() => {
+      cardReadyToBeDeletedEl.remove();
+      closeModal(deleteModal);
     })
     .catch(console.error);
   // deleteModalSubmit.addEventListener("click", () => {}
 }
-  
-  evt.preventDefault(); //prevents the page from reloading and by default removing anything you type into the form
-  api
-    .editUserInfo({ name: nameInput.value, about: jobInput.value })
-    .then((data) => {
-      profileNameElement.textContent = data.name;
-      profileJobElement.textContent = data.about;
-      closeModal(editProfileModal);
-    })
-    .catch(console.error);
-}
+
+evt.preventDefault(); //prevents the page from reloading and by default removing anything you type into the form
+likeButton.textContent = "Saving...";
+
+api
+  .editUserInfo({ name: nameInput.value, about: jobInput.value })
+  .then((data) => {
+    profileNameElement.textContent = data.name;
+    profileJobElement.textContent = data.about;
+    closeModal(editProfileModal);
+  })
+  .catch(console.error)
+  .finally(() => {
+    // change text content back to "save"
+    likeButton.textContent = "Save";
+  });
 
 //
 
@@ -198,7 +206,7 @@ function closeModal(modal) {
 }
 
 avatarProfileBtn.addEventListener("click", function () {
-  avatarInput.value = "to do";
+  avatarInput.value = "Change profile picture";
   openModal(avatarEditModal);
 });
 
@@ -218,7 +226,6 @@ editProfileCloseBtn.addEventListener("click", function () {
 });
 
 newPostBtn.addEventListener("click", function () {
-  // reset the new post form here
   addCardFormElement.reset();
   resetValidation(addCardFormElement, [linkInput, descriptionInput], settings);
   openModal(newPostModal);
@@ -256,6 +263,10 @@ profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault(); //prevents the page from reloading and by default removing anything you type into the form
+
+  // change text content to "Saving"...
+  likeButton.textContent = "Saving...";
+
   api
     .editUserInfo({ name: nameInput.value, about: jobInput.value })
     .then((data) => {
@@ -263,19 +274,29 @@ function handleProfileFormSubmit(evt) {
       profileJobElement.textContent = data.about;
       closeModal(editProfileModal);
     })
-    .catch(console.error);
+    .catch(console.error)
+    .finally(() => {
+      // change text content back to "save"
+      likeButton.textContent = "Save";
+    });
 }
 
 //Avatar edit modal submission
 avatarPhotoForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
+  likeButton.textContent = "Saving...";
+
   api
     .editAvatarInfo({ avatar: avatarInput.value })
     .then((data) => {
       profilePhotoImage.src = data.avatar;
       closeModal(avatarEditModal);
     })
-    .catch(console.error);
+    .catch(console.error)
+    .finally(() => {
+      // change text content back to "save"
+      likeButton.textContent = "Save";
+    });
 
   //function fillInputFields() {
   //profileNameElement.textContent = nameInput.value;
@@ -308,4 +329,7 @@ api
     profileNameElement.textContent = userInfo.name;
     profileJobElement.textContent = userInfo.about;
   })
-  .catch(console.error);
+  .catch(console.error)
+  .finally(() => {
+    // change text content back to "save"
+  });
