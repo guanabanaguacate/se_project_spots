@@ -14,9 +14,8 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
-console.log(api);
+
 const profilePhotoImage = document.querySelector(".profile__photo");
-//DESTRUCTURE THE SECOND ITEM IN THE CALLBACK OF THE .then()
 
 //create Loop to select each initial card element and add them one by one after the next
 // initialCards.forEach((item) => {
@@ -110,20 +109,23 @@ function getCardElement(data) {
   const cardElement = cardTemplate.content
     .querySelector(".card")
     .cloneNode(true);
-
-  //Add all JavaScript activities that need to happen on the clone
-  //INSIDE of this Function that clones each DOM element from the
   const cardImageEl = cardElement.querySelector(".card__image");
   const cardTitleEl = cardElement.querySelector(".card__title");
+  const deleteBtn = cardElement.querySelector(".card__delete-btn");
+  const likeButton = cardElement.querySelector(".card__like-button");
 
   cardImageEl.src = data.link; //passing information to the cardImageEl
   cardImageEl.alt = data.name;
   cardTitleEl.textContent = data.name;
 
-  // let cardReadyToBeDeleted = null;
+ //click on the card’s heart-shaped “like button,” the heart's color should change.
+  likeButton.addEventListener("click", () => {
+    likeButton.classList.toggle("card__like-button_is-active");
+  });
+
+  let cardReadyToBeDeleted = null;
   let cardReadyToBeDeletedEl = null;
 
-  const deleteBtn = cardElement.querySelector(".card__delete-btn");
   deleteBtn.addEventListener("click", () => {
     cardReadyToBeDeletedEl = deleteBtn.closest(".card");
     openModal(deleteModal);
@@ -143,14 +145,38 @@ function getCardElement(data) {
     openModal(modalPreview);
   });
 
-  //when the user clicks on the card’s heart-shaped “like button,” the heart's color should change.
-  const likeButton = cardElement.querySelector(".card__like-button");
-  likeButton.addEventListener("click", () => {
-    likeButton.classList.toggle("card__like-button_is-active");
-  });
-
   return cardElement;
 }
+
+//
+function handleDeleteCard(cardElement, cardId) {
+  cardReadyToBeDeleted = cardId;
+  cardReadyToBeDeletedEl = cardElement;
+  openModal(deleteModal);
+}
+
+function handleDeleteSubmit(evt){
+  evt.preventDefault();
+  api.deleteCard(cardReadyToBeDeleted).then(() => {
+    cardReadyToBeDeletedEl.remove();
+    closeModal(deleteModal);
+    })
+    .catch(console.error);
+  // deleteModalSubmit.addEventListener("click", () => {}
+}
+  
+  evt.preventDefault(); //prevents the page from reloading and by default removing anything you type into the form
+  api
+    .editUserInfo({ name: nameInput.value, about: jobInput.value })
+    .then((data) => {
+      profileNameElement.textContent = data.name;
+      profileJobElement.textContent = data.about;
+      closeModal(editProfileModal);
+    })
+    .catch(console.error);
+}
+
+//
 
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
