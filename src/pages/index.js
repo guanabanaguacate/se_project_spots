@@ -47,6 +47,8 @@ const avatarPhotoForm = avatarEditModal.querySelector(".modal__form");
 //DELETE FORM ELEMENTS
 const deleteModal = document.querySelector("#delete-modal");
 const deleteModalSubmit = deleteModal.querySelector("#delete-modal-submit");
+const deleteModalCancel = deleteModal.querySelector("#delete-modal-cancel");
+const deleteModalCloseBtn = deleteModal.querySelector(".modal__close-btn");
 
 const avatarInput = avatarEditModal.querySelector("#profile-photo-input");
 const nameInput = editProfileModal.querySelector("#profile-name-input");
@@ -95,9 +97,7 @@ const initialCards = [
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
   },
 ];
-const cardElement = cardTemplate.content.querySelector(".card").cloneNode(true);
-const cardImageEl = cardElement.querySelector(".card__image");
-const cardTitleEl = cardElement.querySelector(".card__title");
+// const cardElement = cardTemplate.content.querySelector(".card").cloneNode(true);
 
 function escapeHandler(evt) {
   if (evt.key === "Escape") {
@@ -106,45 +106,54 @@ function escapeHandler(evt) {
   }
 }
 
-const cardImageEl = cardElement.querySelector(".card__image");
-const cardTitleEl = cardElement.querySelector(".card__title");
-const deleteBtn = cardElement.querySelector(".card__delete-btn");
-const likeButton = cardElement.querySelector(".card__like-button");
-
 function getCardElement(data) {
   const cardElement = cardTemplate.content
     .querySelector(".card")
     .cloneNode(true);
+  const cardImageEl = cardElement.querySelector(".card__image");
+  const cardTitleEl = cardElement.querySelector(".card__title");
 
+  const deleteBtn = cardElement.querySelector(".card__delete-btn");
+  const likeButton = cardElement.querySelector(".card__like-button");
+
+  // const cardElement = cardTemplate.content
+  //   .querySelector(".card")
+  //   .cloneNode(true);
+  console.log(data.link, data._id);
   cardImageEl.src = data.link; //passing information to the cardImageEl
   cardImageEl.alt = data.name;
   cardTitleEl.textContent = data.name;
 
   //click on the card’s heart-shaped “like button,” the heart's color should change.
   likeButton.addEventListener("click", () => {
-    likeButton.classList.toggle("card__like-button_is-active");
+    handleLike(data._id);
   });
 
-  function handleLike(evt, id) {
+  if (data.isLiked) {
+    likeButton.classList.add("card__like-button_is-active");
+  }
+
+  function handleLike(id) {
     // remove - evt.target/classList.toggle("card__like-button_is-active");
     //check whether card is currently liked or not
     //call the changeLikeStatus method??, passing it the appropriate arguments
     //handle the response (.then and .catch)
     //toggle the active class in the .then so that the change is visible in the DOM
+    const changeLikeStatus = likeButton.classList.contains(
+      "card__like-button_is-active"
+    )
+      ? api.removeLike
+      : api.addLike;
+    changeLikeStatus(id)
+      .then(() => {
+        likeButton.classList.toggle("card__like-button_is-active");
+      })
+      .catch(console.error);
   }
 
-  let cardReadyToBeDeleted = null;
-  let cardReadyToBeDeletedEl = null;
-
-  deleteBtn.addEventListener("click", () => {
-    cardReadyToBeDeletedEl = deleteBtn.closest(".card");
-    openModal(deleteModal);
-  });
-
-  deleteModalSubmit.addEventListener("click", () => {
-    cardReadyToBeDeletedEl.remove();
-    closeModal(deleteModal);
-  });
+  deleteBtn.addEventListener("click", () =>
+    handleDeleteCard(cardElement, data._id)
+  );
 
   //Preview Image Modal
   cardImageEl.addEventListener("click", () => {
@@ -158,7 +167,8 @@ function getCardElement(data) {
   return cardElement;
 }
 
-//
+let cardReadyToBeDeleted, cardReadyToBeDeletedEl;
+
 function handleDeleteCard(cardElement, cardId) {
   cardReadyToBeDeleted = cardId;
   cardReadyToBeDeletedEl = cardElement;
@@ -166,34 +176,21 @@ function handleDeleteCard(cardElement, cardId) {
 }
 
 function handleDeleteSubmit(evt) {
-  evt.preventDefault();
+  evt.target.textContent = "Deleting...";
+
   api
     .deleteCard(cardReadyToBeDeleted)
     .then(() => {
       cardReadyToBeDeletedEl.remove();
       closeModal(deleteModal);
     })
-    .catch(console.error);
+    .catch(console.error)
+    .finally(() => {
+      // change text content back to "save"
+      evt.target.textContent = "Delete";
+    });
   // deleteModalSubmit.addEventListener("click", () => {}
 }
-
-evt.preventDefault(); //prevents the page from reloading and by default removing anything you type into the form
-likeButton.textContent = "Saving...";
-
-api
-  .editUserInfo({ name: nameInput.value, about: jobInput.value })
-  .then((data) => {
-    profileNameElement.textContent = data.name;
-    profileJobElement.textContent = data.about;
-    closeModal(editProfileModal);
-  })
-  .catch(console.error)
-  .finally(() => {
-    // change text content back to "save"
-    likeButton.textContent = "Save";
-  });
-
-//
 
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
@@ -221,6 +218,12 @@ editProfileBtn.addEventListener("click", function () {
   openModal(editProfileModal);
 });
 
+deleteModalSubmit.addEventListener("click", (evt) => handleDeleteSubmit(evt));
+
+deleteModalCancel.addEventListener("click", () => closeModal(deleteModal));
+
+deleteModalCloseBtn.addEventListener("click", () => closeModal(deleteModal));
+
 editProfileCloseBtn.addEventListener("click", function () {
   closeModal(editProfileModal);
 });
@@ -242,20 +245,33 @@ closeModalPreview.addEventListener("click", () => {
 //"NEW POST" MODAL SUBMISSION
 addCardFormElement.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  const cardName = descriptionInput.value;
-  const cardLink = linkInput.value;
-  const newCardData = {
-    name: cardName,
-    link: cardLink,
-  };
-  const newCardElement = getCardElement(newCardData);
-  cardList.prepend(newCardElement);
+  evt.submitter.textContent = "Saving...";
+
+  api
+    .addCard({ link: linkInput.value, name: descriptionInput.value })
+    .then((data) => {
+      // linkInput.textContent = data.value;
+      // nameInput.textContent = data.value;
+      // const cardName = descriptionInput.value;
+      // const cardLink = linkInput.value;
+      // const newCardData = {
+      //   name: cardName,
+      //   link: cardLink,
+      // };
+      const newCardElement = getCardElement(data);
+      cardList.prepend(newCardElement);
+      closeModal(newPostModal);
+      evt.target.reset();
+      disableButton(submitButton, settings);
+    })
+    .catch(console.error)
+    .finally(() => {
+      // change text content back to "save"
+      evt.submitter.textContent = "Save";
+    });
+
   //alternative way of consolidating the code above
   //cardList.prepend(getCardElement(newCardData));
-
-  closeModal(newPostModal);
-  evt.target.reset();
-  toggleButtonState([descriptionInput, linkInput], submitButton, settings);
   //handleAddCardSubmit(evt);
 });
 
@@ -265,7 +281,7 @@ function handleProfileFormSubmit(evt) {
   evt.preventDefault(); //prevents the page from reloading and by default removing anything you type into the form
 
   // change text content to "Saving"...
-  likeButton.textContent = "Saving...";
+  evt.submitter.textContent = "Saving...";
 
   api
     .editUserInfo({ name: nameInput.value, about: jobInput.value })
@@ -277,14 +293,14 @@ function handleProfileFormSubmit(evt) {
     .catch(console.error)
     .finally(() => {
       // change text content back to "save"
-      likeButton.textContent = "Save";
+      evt.submitter.textContent = "Save";
     });
 }
 
 //Avatar edit modal submission
 avatarPhotoForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  likeButton.textContent = "Saving...";
+  evt.submitter.textContent = "Saving...";
 
   api
     .editAvatarInfo({ avatar: avatarInput.value })
@@ -295,7 +311,7 @@ avatarPhotoForm.addEventListener("submit", (evt) => {
     .catch(console.error)
     .finally(() => {
       // change text content back to "save"
-      likeButton.textContent = "Save";
+      evt.submitter.textContent = "Save";
     });
 
   //function fillInputFields() {
@@ -333,3 +349,5 @@ api
   .finally(() => {
     // change text content back to "save"
   });
+
+enableValidation(settings);

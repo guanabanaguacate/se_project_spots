@@ -92,4 +92,3 @@ export const settings = {
 // Passing the configuration object to enableValidation when we call it.
 //required to enable the validation of the inputs
 //this function is being called
-enableValidation(settings);

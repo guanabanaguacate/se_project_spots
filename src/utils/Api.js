@@ -5,11 +5,8 @@ class Api {
   }
 
   getAppInfo() {
-  return Promise.all([
-    this.getUserInfo(),
-    this.getInitialCards(),
-  ]);
-}
+    return Promise.all([this.getUserInfo(), this.getInitialCards()]);
+  }
 
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
@@ -22,16 +19,16 @@ class Api {
     });
   }
 
-getUserInfo(){
-  return fetch(`${this._baseUrl}/users/me`, {
-    headers: this._headers,
-  }).then((res) => {
+  getUserInfo() {
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: this._headers,
+    }).then((res) => {
       if (res.ok) {
         return res.json();
       }
       Promise.reject(`Error: ${res.status}`);
     });
-}
+  }
 
   editUserInfo({ name, about }) {
     return fetch(`${this._baseUrl}/users/me`, {
@@ -49,7 +46,7 @@ getUserInfo(){
     });
   }
 
-    editAvatarInfo({ avatar }) {
+  editAvatarInfo({ avatar }) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
@@ -64,8 +61,28 @@ getUserInfo(){
     });
   }
 
-    deleteCard(id) {
-    return fetch(`${this._baseUrl}/cards/${`id`}`, {
+  addCard({ link, name }) {
+    return fetch(`${this._baseUrl}/cards`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({
+        // createdAt,
+        // isLiked, // if is liked is false by default
+        link,
+        name,
+        // owner, // d
+        // _id, // ?
+      }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      Promise.reject(`Error: ${res.status}`);
+    });
+  }
+
+  deleteCard(id) {
+    return fetch(`${this._baseUrl}/cards/${id}`, {
       method: "DELETE",
       headers: this._headers,
     }).then((res) => {
@@ -76,8 +93,8 @@ getUserInfo(){
     });
   }
 
-      addLike(id) {
-    return fetch(`${this._baseUrl}/cards/${`id`}/likes`, {
+  addLike =(id) => {
+    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: "PUT",
       headers: this._headers,
     }).then((res) => {
@@ -88,8 +105,8 @@ getUserInfo(){
     });
   }
 
-      removeLike(id) {
-    return fetch(`${this._baseUrl}/cards/${`id`}/likes`, {
+  removeLike =(id) => {
+    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: "DELETE",
       headers: this._headers,
     }).then((res) => {
@@ -99,7 +116,6 @@ getUserInfo(){
       Promise.reject(`Error: ${res.status}`);
     });
   }
-
 }
 
 export default Api;
