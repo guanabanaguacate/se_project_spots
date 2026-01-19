@@ -35,6 +35,8 @@ This webpage is deployed to GitHub pages
 Check out these videos, where I describe my project
 and some challenges I faced while building it:
 
-[First Video Link](https://drive.google.com/drive/u/1/folders/1JY5kXLbfUJ5n15ODNdXNiTmOdJaXcyOt)
+[First Video](https://drive.google.com/drive/u/1/folders/1JY5kXLbfUJ5n15ODNdXNiTmOdJaXcyOt)
 
-[Spots Stage 9 Video Link]  (https://drive.google.com/file/d/1vgSbPtiiwbsBeGHgpoUcc8fXbMkIJbTL/view?usp=sharing)
+[Spots Stage 9 Video]  (https://drive.google.com/file/d/1vgSbPtiiwbsBeGHgpoUcc8fXbMkIJbTL/view?usp=sharing)
+
+[Spots Final Project] (https://www.loom.com/share/c136069230f24f5aa9a4b584ad942314)

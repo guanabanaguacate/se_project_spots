@@ -93,7 +93,7 @@ class Api {
     });
   }
 
-  addLike =(id) => {
+  addLike = (id) => {
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: "PUT",
       headers: this._headers,
@@ -103,9 +103,9 @@ class Api {
       }
       Promise.reject(`Error: ${res.status}`);
     });
-  }
+  };
 
-  removeLike =(id) => {
+  removeLike = (id) => {
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: "DELETE",
       headers: this._headers,
@@ -115,7 +115,7 @@ class Api {
       }
       Promise.reject(`Error: ${res.status}`);
     });
-  }
+  };
 }
 
 export default Api;
