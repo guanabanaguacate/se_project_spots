@@ -35,15 +35,6 @@
   text-align: center; */
 }
 
-/* #delete-modal-submit .modal__submit-btn{
-background-color: rgba(255, 101, 101, 1);
-} */
-
-/* #delete-modal-submit .modal__submit-btn::hover {
-background-color: rgba(255, 51, 51, 1);
-cursor: hover;
-} */
-
 .modal__label {
   padding-bottom: 8px;
   color: rgba(33, 33, 33, 0.7);
@@ -67,8 +58,8 @@ cursor: hover;
   position: relative;
   box-sizing: border-box;
 }
-  
-  /* display: grid;
+
+/* display: grid;
   grid-template-rows: auto auto;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
@@ -93,6 +84,21 @@ cursor: hover;
 .modal__submit-btn:hover {
   cursor: pointer;
   opacity: 0.8;
+}
+
+.modal__delete-btn {
+  background-color: rgba(255, 101, 101, 1);
+}
+
+.modal__delete-btn:hover {
+  background-color: rgba(255, 51, 51, 1);
+  cursor: pointer;
+}
+
+.modal-btn-options {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
 .modal__input {
@@ -169,7 +175,7 @@ cursor: hover;
 }
 
 .modal__caption {
-  margin: 0; 
+  margin: 0;
   position: relative;
   background-color: black;
   color: white;
