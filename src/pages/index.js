@@ -203,7 +203,6 @@ function closeModal(modal) {
 }
 
 avatarProfileBtn.addEventListener("click", function () {
-  avatarInput.value = "Change profile picture";
   openModal(avatarEditModal);
 });
 

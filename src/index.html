@@ -159,13 +159,13 @@ Create a modal in HTML (an interactive element on a page)
           <button type="button" class="modal__close-btn"></button>
           <h2 class="modal__title">Edit profile avatar</h2>
           <form class="modal__form" id="edit-photo-form" novalidate>
-            <label for="profile-photo-input" class="modal__label">Name</label>
+            <label for="profile-photo-input" class="modal__label">Profile picture</label>
             <input
-              type="text"
+              type="url"
               id="profile-photo-input"
               class="modal__input"
               name="avatar"
-              placeholder="avatar photo goes here"
+              placeholder="Paste the link to an image"
               required
               minlength="2"
             />
