@@ -17,12 +17,6 @@ const api = new Api({
 
 const profilePhotoImage = document.querySelector(".profile__photo");
 
-//create Loop to select each initial card element and add them one by one after the next
-// initialCards.forEach((item) => {
-//   const cardElement = getCardElement(item);
-//   cardList.prepend(cardElement);
-// });
-
 //when you call an element, think about what it is supposed to do and the reason why you need to call it
 const editProfileBtn = document.querySelector(".profile__edit-btn");
 const editProfileModal = document.querySelector("#edit-profile-modal");
@@ -71,33 +65,6 @@ const closeModalPreview = modalPreview.querySelector(
 );
 
 const cardList = document.querySelector(".cards__list");
-const initialCards = [
-  {
-    name: "Val Thorens",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/1-photo-by-moritz-feldmann-from-pexels.jpg",
-  },
-  {
-    name: "Restaurant terrace",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/2-photo-by-ceiline-from-pexels.jpg",
-  },
-  {
-    name: "An outdoor cafe",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/3-photo-by-tubanur-dogan-from-pexels.jpg",
-  },
-  {
-    name: "A very long bridge, over the forest and through the trees",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/4-photo-by-maurice-laschet-from-pexels.jpg",
-  },
-  {
-    name: "Tunnel with morning light",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/5-photo-by-van-anh-nguyen-from-pexels.jpg",
-  },
-  {
-    name: "Mountain house",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
-  },
-];
-// const cardElement = cardTemplate.content.querySelector(".card").cloneNode(true);
 
 function escapeHandler(evt) {
   if (evt.key === "Escape") {
@@ -116,15 +83,11 @@ function getCardElement(data) {
   const deleteBtn = cardElement.querySelector(".card__delete-btn");
   const likeButton = cardElement.querySelector(".card__like-button");
 
-  // const cardElement = cardTemplate.content
-  //   .querySelector(".card")
-  //   .cloneNode(true);
   console.log(data.link, data._id);
-  cardImageEl.src = data.link; //passing information to the cardImageEl
+  cardImageEl.src = data.link;
   cardImageEl.alt = data.name;
   cardTitleEl.textContent = data.name;
 
-  //click on the card’s heart-shaped “like button,” the heart's color should change.
   likeButton.addEventListener("click", () => {
     handleLike(data._id);
   });
@@ -134,11 +97,6 @@ function getCardElement(data) {
   }
 
   function handleLike(id) {
-    // remove - evt.target/classList.toggle("card__like-button_is-active");
-    //check whether card is currently liked or not
-    //call the changeLikeStatus method??, passing it the appropriate arguments
-    //handle the response (.then and .catch)
-    //toggle the active class in the .then so that the change is visible in the DOM
     const changeLikeStatus = likeButton.classList.contains(
       "card__like-button_is-active"
     )
@@ -186,10 +144,8 @@ function handleDeleteSubmit(evt) {
     })
     .catch(console.error)
     .finally(() => {
-      // change text content back to "save"
       evt.target.textContent = "Delete";
     });
-  // deleteModalSubmit.addEventListener("click", () => {}
 }
 
 function openModal(modal) {
@@ -249,14 +205,7 @@ addCardFormElement.addEventListener("submit", (evt) => {
   api
     .addCard({ link: linkInput.value, name: descriptionInput.value })
     .then((data) => {
-      // linkInput.textContent = data.value;
-      // nameInput.textContent = data.value;
-      // const cardName = descriptionInput.value;
-      // const cardLink = linkInput.value;
-      // const newCardData = {
-      //   name: cardName,
-      //   link: cardLink,
-      // };
+    
       const newCardElement = getCardElement(data);
       cardList.prepend(newCardElement);
       closeModal(newPostModal);
@@ -265,13 +214,8 @@ addCardFormElement.addEventListener("submit", (evt) => {
     })
     .catch(console.error)
     .finally(() => {
-      // change text content back to "save"
       evt.submitter.textContent = "Save";
     });
-
-  //alternative way of consolidating the code above
-  //cardList.prepend(getCardElement(newCardData));
-  //handleAddCardSubmit(evt);
 });
 
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
@@ -279,7 +223,6 @@ profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 function handleProfileFormSubmit(evt) {
   evt.preventDefault(); //prevents the page from reloading and by default removing anything you type into the form
 
-  // change text content to "Saving"...
   evt.submitter.textContent = "Saving...";
 
   api
@@ -291,7 +234,6 @@ function handleProfileFormSubmit(evt) {
     })
     .catch(console.error)
     .finally(() => {
-      // change text content back to "save"
       evt.submitter.textContent = "Save";
     });
 }
@@ -309,17 +251,8 @@ avatarPhotoForm.addEventListener("submit", (evt) => {
     })
     .catch(console.error)
     .finally(() => {
-      // change text content back to "save"
       evt.submitter.textContent = "Save";
     });
-
-  //function fillInputFields() {
-  //profileNameElement.textContent = nameInput.value;
-  //profileJobElement.textContent = jobInput.value;
-  //}
-
-  //2b. Closing the modal by pressing the Escape key
-  //Code a feature that allows the users to close the modal by pressing the Escape key. Keep in mind the following:
 });
 
 //Code a feature that allows the users to close the modal by clicking on the overlay, i.e. anywhere outside the modal’s borders:
@@ -345,8 +278,6 @@ api
     profileJobElement.textContent = userInfo.about;
   })
   .catch(console.error)
-  .finally(() => {
-    // change text content back to "save"
-  });
+  .finally(() => {evt.submitter.textContent = "Save"});
 
 enableValidation(settings);
