@@ -205,7 +205,6 @@ addCardFormElement.addEventListener("submit", (evt) => {
   api
     .addCard({ link: linkInput.value, name: descriptionInput.value })
     .then((data) => {
-    
       const newCardElement = getCardElement(data);
       cardList.prepend(newCardElement);
       closeModal(newPostModal);
@@ -247,6 +246,8 @@ avatarPhotoForm.addEventListener("submit", (evt) => {
     .editAvatarInfo({ avatar: avatarInput.value })
     .then((data) => {
       profilePhotoImage.src = data.avatar;
+      evt.target.reset();
+      evt.submitter.disabled = true;
       closeModal(avatarEditModal);
     })
     .catch(console.error)
@@ -278,6 +279,8 @@ api
     profileJobElement.textContent = userInfo.about;
   })
   .catch(console.error)
-  .finally(() => {evt.submitter.textContent = "Save"});
+  .finally(() => {
+    evt.submitter.textContent = "Save";
+  });
 
 enableValidation(settings);
