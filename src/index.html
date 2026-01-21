@@ -7,37 +7,52 @@
     <meta name="author" content="Jasmine Curtis" />
     <meta name="keywords" content="HTML, CSS, Bessie Coleman, Aviator" />
     <title>Spots</title>
-    <link rel="stylesheet" href="./pages/index.css" />
     <link rel="icon" type="image/x-icon" href="./favicon.ico" />
   </head>
+
   <body class="body">
     <div class="page">
       <header class="header">
-        <img class="header__logo" src="./images/Logo.svg" alt="Spots logo" />
+        <img
+          class="header__logo"
+          src="<%=require ('./images/Logo.svg')%>"
+          alt="Spots logo"
+        />
       </header>
       <main class="content">
         <section class="profile page__section">
-          <img
-            class="profile__photo"
-            src="./images/avatar.jpg"
-            alt="Bessie Colman"
-          />
+          <div class="profile__photo-container">
+            <img
+              class="profile__photo"
+              src="<%=require('./images/avatar.jpg')%>"
+              alt="Bessie Colman"
+            />
+            <button class="profile__photo-btn">
+              <img
+                class="profile__pencil-icon"
+                src="<%=require('./images/pencil-light.svg')%>"
+                alt="Pencil icon"
+              />
+            </button>
+          </div>
           <div class="profile__column">
             <h1 class="profile__name">Bessie Coleman</h1>
             <p class="profile__description">Civil Aviator</p>
             <button class="profile__edit-btn">
-              <img src="./images/pencil.svg" alt="pencil icon" />
+              <img
+                src="<%=require('./images/pencil.svg')%>"
+                alt="pencil icon"
+              />
               <span class="profile__text-btn">Edit Profile</span>
             </button>
           </div>
           <button class="profile__add-btn" type="button">
-            <img src="./images/Plus-icon.svg" alt="plus icon" />
+            <img src="<%=require('./images/Plus-icon.svg')%>" alt="plus icon" />
             New Post
           </button>
         </section>
         <section class="cards page__section">
           <ul class="cards__list">
-          
             <template id="card-template">
               <li class="card">
                 <button class="card__delete-btn" type="button"></button>
@@ -52,7 +67,7 @@
         </section>
       </main>
       <footer class="footer page__section">
-        <p class="footer-copyright">2025 &copy; Spots</p>
+        <p class="footer__copyright">2025 &copy; Spots</p>
       </footer>
 
       <div class="modal" id="edit-profile-modal">
@@ -83,7 +98,10 @@
               minlength="2"
               maxlength="200"
             />
-            <span id="profile-description-input-error" class="modal__error"></span>
+            <span
+              id="profile-description-input-error"
+              class="modal__error"
+            ></span>
             <button type="submit" class="modal__submit-btn">Save</button>
           </form>
         </div>
@@ -135,8 +153,55 @@ Create a modal in HTML (an interactive element on a page)
           <span class="modal__caption"></span>
         </div>
       </div>
-      <script src="./scripts/index.js"></script>
-      <script src="./scripts/validation.js"></script>
+
+      <div class="modal" id="avatar-profile-modal">
+        <div class="modal__container">
+          <button type="button" class="modal__close-btn"></button>
+          <h2 class="modal__title">Edit profile avatar</h2>
+          <form class="modal__form" id="edit-photo-form" novalidate>
+            <label for="profile-photo-input" class="modal__label"
+              >Profile picture</label
+            >
+            <input
+              type="url"
+              id="profile-photo-input"
+              class="modal__input"
+              name="avatar"
+              placeholder="Paste the link to an image"
+              required
+              minlength="2"
+            />
+            <span id="profile-photo-input-error" class="modal__error"></span>
+            <button type="submit" class="modal__submit-btn">Save</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="modal" id="delete-modal">
+
+          <div class="modal__container modal__container-delete">
+            <button type="button" class="modal__close-btn modal__close-btn-delete-modal"></button>
+            
+            <h2 class="modal__title modal__title_delete">
+              Are you sure you want to delete this image?
+            </h2>
+            <div class="modal__btn-options">
+              <button
+                class="modal__delete-btn modal__submit-btn"
+                id="delete-modal-submit"
+              >
+                Delete
+              </button>
+              <button
+                class="modal__submit-btn modal__cancel-btn"
+                id="delete-modal-cancel"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+
+      </div>
     </div>
   </body>
 </html>

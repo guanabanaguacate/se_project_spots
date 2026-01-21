@@ -35,7 +35,7 @@
 }
 
 .card__delete-btn {
-  background-image: url(../images/Trash\default.svg);
+  background-image: url(../images/Trash-default.svg);
   width: 32px;
   height: 32px;
   border: none;
@@ -52,7 +52,7 @@
 
 .card__delete-btn:hover {
   cursor: pointer;
-  background-image: url(../images/Trash\hover.svg);
+  background-image: url(../images/Trash-hover.svg);
 }
 
 .card__content {
