@@ -278,9 +278,6 @@ api
     profileNameElement.textContent = userInfo.name;
     profileJobElement.textContent = userInfo.about;
   })
-  .catch(console.error)
-  .finally(() => {
-    evt.submitter.textContent = "Save";
-  });
+  .catch(console.error);
 
 enableValidation(settings);

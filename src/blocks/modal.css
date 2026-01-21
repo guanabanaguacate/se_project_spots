@@ -31,8 +31,10 @@
   font-size: 24px;
   line-height: 100%;
   letter-spacing: 0;
-  /* grid-column: 1/ -1;
-  text-align: center; */
+}
+
+.modal__title_delete {
+  text-align: center;
 }
 
 .modal__label {
@@ -57,11 +59,6 @@
   padding: 32px 50px;
   position: relative;
   box-sizing: border-box;
-  
-/*   
-  display: flex;
-  flex-direction: column;
-  justify-content: center; */
 }
 
 .modal__submit-btn {
@@ -91,7 +88,7 @@
   height: 52px;
 }
 
-.modal__cancel-btn{
+.modal__cancel-btn {
   color: black;
   background-color: white;
   border: solid;
@@ -102,12 +99,11 @@
   height: 52px;
 }
 
-.modal__container-delete{
+.modal__container-delete {
   width: 630px;
-  height: 172px;
 }
 
-.modal__cancel-btn:hover{
+.modal__cancel-btn:hover {
   background-color: black;
   color: white;
 }
@@ -117,7 +113,7 @@
   cursor: pointer;
 }
 
-.modal-btn-options {
+.modal__btn-options {
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -159,19 +155,16 @@
   cursor: pointer;
 }
 
-/* .modal__delete-modal-wrap{
-display: flex;
-flex-direction: column;
-justify-content: center;
-} */
-
-
-.modal__container-title-btns{
-width: 630px;
-height: 172px;
-
+.modal__close-btn-delete-modal {
+  top: 0px;
+  right: -52px;
+  background-image: url(../images/close-icon-2.svg);
 }
 
+.modal__container-title-btns {
+  width: 630px;
+  height: 172px;
+}
 
 .modal__close-btn:hover {
   cursor: pointer;
@@ -230,7 +223,7 @@ height: 172px;
   max-width: 80vh;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 580px) {
   .modal__submit-btn {
     max-width: none;
     width: 100%;
@@ -238,6 +231,7 @@ height: 172px;
 
   .modal__title {
     font-size: 20px;
+    line-height: 120%;
   }
 
   .modal__container {
@@ -249,11 +243,22 @@ height: 172px;
     right: 12px;
   }
 
+  .modal__close-btn-delete-modal {
+    right: 0px;
+    top: -50px;
+  }
+
   .modal__input {
     font-size: 16px;
   }
 
   .modal__image {
     max-width: 288px;
+  }
+
+  .modal__btn-options {
+    flex-direction: column;
+    max-width: 156px;
+    margin: auto;
   }
 }
